@@ -1,0 +1,18 @@
+.conteur{
+    display: flex;
+    flex-direction: column;
+    max-width: 10rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.nombre{
+    font-size: 4rem;
+    font-weight: bold;
+
+}
+
+.button{
+    width: 100%;
+    padding: 1rem;
+}

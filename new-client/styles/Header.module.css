@@ -1,0 +1,44 @@
+.img {
+    max-width: 100%;
+    margin-left: 20px;
+  }
+  
+  /* Style the navigation bar with a soft drop shadow */
+  .navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style the navigation bar brand with a subtle gradient and box shadow effect */
+  .navbar_brand {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    gap: 10px;
+    font-size: 2em;
+    background: linear-gradient(to right, #e23e57, #7048e8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Add a drop shadow to the navigation links */
+  .navbar_nav .nav_link {
+    font-weight: 500;
+    color: #333333;
+    margin-right: 20px;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add hover effect to the navigation links */
+  .navbar_nav .nav_link:hover {
+    color: #007bff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Add box shadow effect to the navbar when scrolled */
+  .navbar_scrolled {
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }

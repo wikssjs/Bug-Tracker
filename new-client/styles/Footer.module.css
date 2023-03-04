@@ -1,0 +1,16 @@
+  /* Set images to be responsive */
+  
+  /* Style the footer with a subtle gradient */
+  .footer {
+    background: linear-gradient(to right, #e23e57, #7048e8);
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  /* Set font size and color for the footer */
+  .footer p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #FFFFFF;
+  }
