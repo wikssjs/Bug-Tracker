@@ -1,6 +1,17 @@
 import { promesseConnexion } from './connexion.js';
 import { hash } from 'bcrypt';
 
+
+
+
+export const getAllUsers = async () => {
+    let connexion = await promesseConnexion;
+    let resultat = await connexion.all(
+        `SELECT * from users`)
+
+        return resultat;
+}
+
 export const addUtilisateur = async (nomUtilisateur, motDePasse) => {
     let connexion = await promesseConnexion;
 

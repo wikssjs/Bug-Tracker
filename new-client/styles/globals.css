@@ -10,21 +10,9 @@ html{
 body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #F5F5F5;
 }
 
 
-  
-  /* Style the headings with a soft gradient */
-  h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #e23e57, #7048e8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
+
 
   

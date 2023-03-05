@@ -9,11 +9,11 @@ import memorystore from 'memorystore';
 import passport from 'passport';
 import middlewareSse from './middleware-sse.js';
 import { getTodos, addTodo, checkTodo } from './model/todo.js';
-import { addUtilisateur } from './model/utilisateur.js';
+import { addUtilisateur, getAllUsers } from './model/utilisateur.js';
 import { validateContact } from './validation.js';
 import './authentification.js';
-import { connecterUser, deconnecterUser, getUser } from './Controllers/UserController.js';
-import { getDonnees } from './Controllers/DataController.js';
+import { connecterUser, deconnecterUser, getUsers } from './Controllers/UserController.js';
+import { addProject, getDonnees } from './Controllers/DataController.js';
 
 // Création du serveur web
 let app = express();
@@ -61,9 +61,11 @@ app.use(middlewareSse());
 app.use(express.static('public'));
 
 // Programmation de routes
-app.get('/', getDonnees)
+app.get('/',getDonnees)
 
-app.get("/james",getUser);
+app.get("/users",getUsers)
+
+app.post('/add-project', addProject);
 
 app.get('/apropos', (request, response) => {
     if(request.session.countAPropos === undefined) {

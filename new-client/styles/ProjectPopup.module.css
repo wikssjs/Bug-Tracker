@@ -1,0 +1,54 @@
+.popup{
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    right: 40%;
+    top: 5%;
+    background-color: white;
+    z-index: 2;
+}
+
+.popup h1{
+    font-size: 1.5em;
+}
+
+.users{
+    overflow-x: hidden;
+}
+
+.popup textarea{
+    height: 100px;
+    width: 200px;
+    resize: none;
+}
+
+.popup button{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 20px;
+    border-radius: 20px;
+    top: 0;
+    color: black;
+}
+
+
+
+.notification button{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.notification{
+    width: 300px;
+    height: 50px;
+    z-index: 3;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    border-radius: 10px;
+    background-color: #aaf0d1;
+    text-align: center;
+
+}

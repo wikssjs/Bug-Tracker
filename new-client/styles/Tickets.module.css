@@ -1,0 +1,16 @@
+.tickets thead{
+    background-color:#FB8500 ;
+}
+
+.tickets .link{
+    width: 2000px;
+}
+
+
+.tickets tr{
+    cursor: pointer;
+}
+
+.tickets tr:hover{
+    background-color: #8ECAE6;
+}

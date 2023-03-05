@@ -1,74 +1,118 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Activity from '../component/Activity';
+import ProjectPopup from '../component/ProjectPopup';
+import Sidebar from '../component/Sidebar';
 import styles from '../styles/Accueil.module.css'
 
 export default function Main() {
-  return (
-      <main>
-        <div className={`${styles.jumbotron} jumbotron jumbotron-fluid animate__animated animate__fadeIn`}>
-          <div className={`${styles.container} container`}>
-            <h1 className="display-4">Bienvenue en Haïti</h1>
-            <p className="lead animate__animated animate__fadeInUp">
-              Découvrez notre riche culture, notre cuisine délicieuse et notre
-              hospitalité chaleureuse.
-            </p>
-          </div>
-        </div>
-        <div className={`${styles.container} container`}>
-          <div className="row">
-            <div className="col-md-6 animate__animated animate__fadeInLeft">
-              <h2>Tourisme</h2>
-              <p>
-                Haïti est une destination touristique unique avec une variété
-                d&apos;attractions naturelles et culturelles. Découvrez nos plages de
-                sable blanc, nos montagnes verdoyantes et nos sites historiques.
-                Nous avons quelque chose pour tous les goûts.
-              </p>
-              <Link href="/tourisme" className="btn btn-secondary animate__animated animate__fadeInUp">
-                En savoir plus
-              </Link>
-            </div>
-            <div className="col-md-6 animate__animated animate__fadeInRight">
-              <h2>Affaires</h2>
-              <p>
-                Haïti est un endroit idéal pour les investissements et les
-                opportunités commerciales. Découvrez les secteurs clés de notre
-                économie et les raisons pour lesquelles de plus en plus
-                d&apos;entreprises choisissent de faire des affaires avec nous.
-              </p>
-              <Link href="/affaire" className="btn btn-secondary animate__animated animate__fadeInUp">
-                En savoir plus
-              </Link>
-            </div>
-          </div>
-          <div className='row mt-5'>
-            <div className="col-md-6 animate__animated animate__fadeInLeft">
-              <h2>Gastronomie</h2>
-              <p>
-                Découvrez la riche cuisine haïtienne, avec ses saveurs uniques et
-                ses influences africaines et créoles. De nos plats traditionnels
-                comme le griot et le riz collé, à nos fruits tropicaux et notre
-                café de haute qualité, vous allez adorer notre nourriture.
-              </p>
-              <Link href="/gastronomie" className="btn btn-secondary animate__animated animate__fadeInUp">
-                En savoir plus
-              </Link>
-            </div>
 
-            <div className="col-md-6 animate__animated animate__fadeInRight">
-              <h2>Culture</h2>
-              <p>
-                Découvrez la culture riche et vibrante d&apos;Haïti, avec ses danses,
-                ses chants, ses histoires et ses croyances. Explorez notre art,
-                notre musique, nos fêtes et nos traditions, et plongez dans un
-                monde de couleurs, de rythmes et de joie de vivre.
-              </p>
-              <Link href="/culture" className="btn btn-secondary animate__animated animate__fadeInUp">
-                En savoir plus
-              </Link>
+  const [projects, setProjects] = useState({ projects: [], contributors: [] });
+  const [showPopup, setShowPopup] = useState(false);
+  const [addProjet, setAddProject] = useState({ name: '', description: '', contributors: [] });
+  const [notification, setNotification] = useState({ show: false, name: '' });
+  
+  useEffect(() => {
+    fetch('http://192.168.0.26:5000/')
+      .then(res => res.json())
+      .then(data =>  setProjects(data))
+  }, [])
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setNotification({ show: false, name: '' });
+    }
+      , 3000);
+  }, [notification]);
+
+
+  function handlePopup() {
+    setShowPopup(true);
+  }
+
+
+  return (
+    <div className="col-sm-10 main-content mt-2">
+      {
+        showPopup && <ProjectPopup setShowPopup={setShowPopup} setNotification={setNotification} setAddProject={setAddProject}/>
+      } 
+      <div className="row">
+        <div className="col-md-4 text-center">
+          <div className="card bg-success text-white">
+            <div className="card-body">
+              <h5 className="card-title">New Bugs</h5>
+              <p className="card-text">5</p>
             </div>
           </div>
         </div>
-      </main>
-    );
-    
+        <div className="col-md-4 text-center">
+          <div className="card bg-warning text-white">
+            <div className="card-body">
+              <h5 className="card-title">Open Bugs</h5>
+              <p className="card-text">10</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 text-center">
+          <div className="card bg-danger text-white">
+            <div className="card-body">
+              <h5 className="card-title">Closed Bugs</h5>
+              <p className="card-text">8</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={`${styles.projects} row mt-4 shadow-lg`}>
+        <div className='d-flex justify-content-between'>
+          <h1>Projects</h1>
+          <button onClick={handlePopup} className='btn btn-success btn-sm'>Add Project   <i className='bi bi-plus-circle'></i></button>
+        </div>
+        <div className="col-md-12">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Project</th>
+                <th>Ticket</th>
+                <th>Contributor</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className=''>
+
+              {
+                projects.projects.map((project) => {
+                  return (
+                    <tr key={project.id} className="">
+                      <td>{project.id}</td>
+                      <td>{project.name}</td>
+                      <td>{project.description}</td>
+                      <td>{projects.contributors.map((user)=>{
+                        if(user.project_id === project.id){
+                          return <p>{user.username}</p>
+                        }
+                      })}</td>
+                      <button className='btn btn-primary bg-primary'>Edit <i className='bi bi-pencil-square'></i></button>
+                    </tr>
+                  )
+                })
+              }
+
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+      <Activity />
+      {
+        notification.show && (
+            <div className={`${styles.notification} shadow-lg animate__animated animate__fadeInRight`}>
+                <p>The project <span className='text-info'>{notification.name}</span> {notification.name} has been created</p>
+            </div>
+        )
+    }
+    </div>
+  )
+
 }

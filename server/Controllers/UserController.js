@@ -1,8 +1,9 @@
-import { getTodos, addTodo, checkTodo } from '../model/todo.js';
+import { getAllUsers } from '../model/utilisateur.js';
 
-
-export const getUser = async (req, res) => {
-   res.status(200).json({nom: "James", age: 25});
+export const getUsers = async (req, res) => {
+    res.status(200).json({
+        users: await getAllUsers(),
+    });
 }
 
 
