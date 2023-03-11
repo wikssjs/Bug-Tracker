@@ -5,7 +5,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'animate.css';
 import {Roboto_Flex,Montserrat} from '@next/font/google'
 import Layout from '../component/Layout';
-import dynamic from 'next/dynamic';
 import Scripts from '../component/Scripts';
 
 

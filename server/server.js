@@ -9,12 +9,11 @@ import memorystore from 'memorystore';
 import passport from 'passport';
 import middlewareSse from './middleware-sse.js';
 import { getTodos, addTodo, checkTodo } from './model/todo.js';
-import { addUtilisateur, getAllUsers } from './model/utilisateur.js';
 import { validateContact } from './validation.js';
 import './authentification.js';
 import { connecterUser, deconnecterUser, getUsers } from './Controllers/UserController.js';
-import { addProject, getDonnees } from './Controllers/DataController.js';
-
+import { addProject, editProject, getDonnees, getProjectById, getAllProjects} from './Controllers/DataController.js';
+import { getTickets, addTicket,addMember} from './Controllers/TicketController.js';
 // Création du serveur web
 let app = express();
 
@@ -62,10 +61,20 @@ app.use(express.static('public'));
 
 // Programmation de routes
 app.get('/',getDonnees)
+app.get('projects',getAllProjects)
 
 app.get("/users",getUsers)
 
 app.post('/add-project', addProject);
+
+app.put('/edit-project', editProject);
+
+app.get('/tickets',getTickets);
+app.post('/add-ticket',addTicket);
+app.post('/project/add-members',addMember);
+
+
+app.get('/project/:id', getProjectById);
 
 app.get('/apropos', (request, response) => {
     if(request.session.countAPropos === undefined) {
