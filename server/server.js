@@ -13,7 +13,7 @@ import { validateContact } from './validation.js';
 import './authentification.js';
 import { connecterUser, deconnecterUser, getUsers } from './Controllers/UserController.js';
 import { addProject, editProject, getDonnees, getProjectById, getAllProjects} from './Controllers/DataController.js';
-import { getTickets, addTicket,addMember} from './Controllers/TicketController.js';
+import { getTickets, addTicket,addMember,deleteMember,getTicketById,editTicket} from './Controllers/TicketController.js';
 // Création du serveur web
 let app = express();
 
@@ -69,12 +69,17 @@ app.post('/add-project', addProject);
 
 app.put('/edit-project', editProject);
 
-app.get('/tickets',getTickets);
-app.post('/add-ticket',addTicket);
 app.post('/project/add-members',addMember);
+
+app.delete('/project/delete-member',deleteMember);
 
 
 app.get('/project/:id', getProjectById);
+
+app.get('/tickets',getTickets);
+app.post('/add-ticket',addTicket);
+app.get('/ticket',getTicketById);
+app.put('/edit-ticket',editTicket);
 
 app.get('/apropos', (request, response) => {
     if(request.session.countAPropos === undefined) {

@@ -1,5 +1,5 @@
 .projects{
-  max-height: 500px;
+  max-height: fit-content;
 }
 
 .projects h1{

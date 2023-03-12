@@ -122,3 +122,9 @@
     height: 400px;
     overflow-y: scroll;
 }
+
+
+.tickets .table tbody tr:hover{
+    cursor: pointer;
+    background-color: #D6D6E7;
+}

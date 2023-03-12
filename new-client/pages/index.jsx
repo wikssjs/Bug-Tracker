@@ -8,11 +8,11 @@ import styles from '../styles/Accueil.module.css'
 
 export default function Main() {
 
-  const [projects, setProjects] = useState({ projects: [], contributors: []});
+  const [projects, setProjects] = useState({ projects: [], contributors: [] });
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [addProjet, setAddProject] = useState({ name: '', description: '', contributors: [] });
-  const [notification, setNotification] = useState({ show: false, name: '',message:'' });
+  const [notification, setNotification] = useState({ show: false, name: '', message: '' });
   const [editProject, setEditProject] = useState({ project: {}, contributors: [], oldContributors: [] });
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,15 +49,15 @@ export default function Main() {
   useEffect(() => {
 
     console.log('addProject', projects.inProgressBugs);
-    
-    let interval  = setTimeout(() => {
-      setNotification({ show: false, name: '',message:'' });
+
+    let interval = setTimeout(() => {
+      setNotification({ show: false, name: '', message: '' });
     }
       , 3000);
 
-      return () => {
-        clearInterval(interval);
-      }
+    return () => {
+      clearInterval(interval);
+    }
 
   }, [notification]);
 
@@ -76,7 +76,7 @@ export default function Main() {
   }
 
   return (
-    <div className="col-sm-10 main-content mt-2">
+    <main className="col-sm-10 main-content mt-2 h-100">
       {
         showPopup && <ProjectPopup selectedOption={selectedOptions} setSelectedOption={setSelectedOptions} setShowPopup={setShowPopup} setNotification={setNotification} setAddProject={setAddProject} />
       }
@@ -165,7 +165,7 @@ export default function Main() {
           </div>
         )
       }
-    </div>
+    </main>
   )
 
 }

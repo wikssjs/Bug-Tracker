@@ -112,7 +112,7 @@ export const editProjectModel = async (id, name, description, contributors) => {
 export const getProjectByIdModel = async (id) => {
     let connexion = await promesseConnexion;
     let resultat = await connexion.all(
-        `SELECT *,u.username,t.description FROM TICKETS t 
+        `SELECT u.username,t.description,t.id,u.username,t.reported_by,t.title FROM TICKETS t 
         INNER JOIN projects p ON p.id = t.project_id
         INNER JOIN users u ON u.id = t.reported_by
         WHERE p.id = ?`, [id]

@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import styles from "../styles/TicketPopup.module.css";
 
 
 
-export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchData}) {
-    const [contributors, setContributors] = useState([]);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("Open");
-    const [priority, setPriority] = useState("Low");
+export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchData,fetchData,popupRef,ticket,contributors,setContributors,btnTxt,method,assignees,ticket_id}) {
+    // const [contributors, setContributors] = useState([]);
+    const [title, setTitle] = useState(ticket && ticket.title);
+    const [description, setDescription] = useState(ticket && ticket.description);
+    const [status, setStatus] = useState(ticket ? ticket.status : "Open");
+    const [priority, setPriority] = useState(ticket ? ticket.priority : "Low");
     const [chekedBoxes, setChekedBoxes] = useState([]);
-    
+    let tour=0;
 
     useEffect(() => {
         fetch('http://192.168.0.26:5000/users')
@@ -21,11 +21,20 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
     }, [])
 
     useEffect(() => {
-      
-    }, [])
+        
+        if(tour === 0 && assignees){
+            const assignee = assignees && assignees.map(
+                (oldContributor) => {
+                    return oldContributor.id
+                }
+                );
+                setChekedBoxes(assignee);
+            }
+                tour ++;
 
+      }, [assignees]);
 
-
+    
     function handleCheck(event) {
         if (!event.currentTarget.classList.contains('checked')) {
             console.log(chekedBoxes)
@@ -46,17 +55,18 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
 
 
         const ticket = {
+            id:ticket_id,
             title: title,
             description: description,
             status: status,
             priority: priority,
             project_id: project_id,
-            assigned_users: chekedBoxes
+            assignees_users: chekedBoxes
         }
+
         
-        console.log(ticket)
-        let response = await fetch('http://192.168.0.26:5000/add-ticket', {
-            method: 'POST',
+        let response = await fetch(`http://192.168.0.26:5000/${btnTxt}-ticket`, {
+            method: `${method}`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -65,7 +75,7 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
 
         if(response.ok){
             setShowTicketPopPup(false);
-            setFetchData(true);
+            setFetchData(!fetchData);
         }
 
     
@@ -93,7 +103,7 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
 
 
     return (
-        <div className={`${styles.popup} shadow-lg row  position-absolute`}>
+        <div ref={popupRef} className={`${styles.popup} shadow-lg row  position-absolute`}>
             <div className={`${styles.popup_inner} d-flex flex-column text-center`}>
                 <div className="popup-header">
                     <h3 className="popup-title">Add Ticket</h3>
@@ -102,15 +112,15 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
                 <div className="popup-content">
                     <form className="popup-form  d-flex flex-column" onSubmit={handleSumit}>
                         <label htmlFor="">
-                            <input className='form-control' type="text" placeholder='Title' required onChange={handleTitleChange} />
+                            <input defaultValue={ ticket && ticket.title} className='form-control' type="text" placeholder='Title' required onChange={handleTitleChange} />
                         </label>
                         <label htmlFor="">
-                            <textarea name="" id="" cols="30" rows="10" placeholder='Description' required onChange={handleDescriptionChange}></textarea>
+                            <textarea defaultValue={ticket && ticket.description} name="" id="" cols="30" rows="10" placeholder='Description' required onChange={handleDescriptionChange}></textarea>
                         </label>
                     
 
                         <label htmlFor=""  className={styles.status}>
-                            <select required  name="" id="" onChange={handleStatusChange} className={styles.select}>
+                            <select defaultValue={ ticket && ticket.status} required  name="" id="" onChange={handleStatusChange} className={styles.select}>
                                 <option value="Open">Open</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Closed">Closed</option>
@@ -120,10 +130,10 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
                         </label>
                        
                         <label  htmlFor="" className={styles.status}>
-                            <select required name="" id="" onChange={handlePriorityChange} className={styles.select}>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
+                            <select defaultValue={ ticket && ticket.priority} required name="" id="" onChange={handlePriorityChange} className={styles.select}>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
                             </select>
 
                             <i className={`bi bi-caret-down ${styles.arrow1}`}></i>
@@ -144,8 +154,10 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
                                     {
                                         contributors.map((contributor) => {
 
+                                            const isAssigned = assignees && assignees.find(assignee => assignee.id === contributor.id);
+
                                             return (
-                                                <li data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item `}>
+                                                <li data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item ${isAssigned ? "checked":""}`}>
                                                     <span class="checkbox">
                                                         <i class="bi bi-check-lg check-icon"></i>
                                                     </span>
@@ -159,7 +171,7 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
                             </div>
                         </label>
 
-                        <button className={`${styles.submit} align-self-center btn-success`} type="submit">Add</button>
+                        <button className={`${styles.submit} align-self-center btn-success`} type="submit">{btnTxt}</button>
                     </form>
                 </div>
             </div>

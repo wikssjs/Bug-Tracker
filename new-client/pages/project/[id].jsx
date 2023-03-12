@@ -19,26 +19,19 @@ export default function Project() {
   const [fetchData, setFetchData] = useState(false);
 
 
-  const[str1, setStr1] = useState('1697b194-8f6e-4a21-983a-35b979e9bc73');
-  const[str2, setStr2] = useState('04fc6d34-3deb-46b8-9139-8f75ba4439de');
-
-  let array = [];
-
   useEffect(() => {
     fetch(`http://192.168.0.26:5000/project/${id}`)
       .then(res => res.json())
       .then((data) => {
-
-
-        fetch('http://192.168.0.26:5000/users')
-          .then(res => res.json())
-          .then(data => setContributors(data.users))
-
-
+      
         setProject(data.project);
         setTeam(data.team);
       }
       )
+
+      fetch('http://192.168.0.26:5000/users')
+        .then(res => res.json())
+        .then(data => setContributors(data.users))
   }, [fetchData])
 
   let tour = 0;
@@ -109,6 +102,26 @@ export default function Project() {
   }
 
 
+ async function deleteMember(event) {
+    let data = {
+      project_id: id,
+      user_id: event.currentTarget.dataset.id
+    }
+
+    let response = await fetch('http://192.168.0.26:5000/project/delete-member', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (response.ok) {
+      setFetchData(!fetchData);
+    }
+
+  }
+
   async function addMembers() {
     let data = {
       project_id: id,
@@ -131,11 +144,15 @@ export default function Project() {
     }
   }
 
+  function redirectUser(ticket_id) {
+    router.push(`/ticket?ticket_id=${ticket_id}&project_id=${id}`);
+  }
+
 
 
   return (
     <>
-      <div className='col position-relative'>
+      <main className='col position-relative'>
         <h1>Project {id}</h1>
         {/* <h2>{team && team[0].name}</h2> */}
 
@@ -163,12 +180,11 @@ export default function Project() {
                         <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td>
-                          <button className='btn'><i class="bi bi-three-dots-vertical"></i></button>
+                          <button data-id={user.id} onClick={deleteMember} className='btn'><i class="bi bi-trash text-danger"></i></button>
                         </td>
                       </tr>
                     ))
-                  }
-
+                    }
 
                 </tbody>
 
@@ -181,27 +197,28 @@ export default function Project() {
             <div className='row'>
 
               <h1 className='col'>Tikects</h1>
-              <button onClick={handleTicketPopup} className={`${styles.newButton} btn btn-primary`}>New Ticket{str1 === id ? " true":id}</button>
+              <button onClick={handleTicketPopup} className={`${styles.newButton} btn btn-primary`}>New Ticket</button>
             </div>
 
             <div className={styles.tickets}>
-              <table className='table'>
+              <table className={`${styles.table} table`}>
                 <thead>
                   <tr>
                     <th>Ticket</th>
                     <th>Description</th>
                     <th>Reporter</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    project && project.map((user) => (
-                      <tr>
-                        <td>{user.title}</td>
-                        <td>{user.description}</td>
-                        <td>{user.username}</td>
+                    project && project.map((ticket) => (
+                      <tr onClick={()=>{redirectUser(ticket.id)}}>
+                        <td>{ticket.title}</td>
+                        <td>{ticket.description}</td>
+                        <td>{ticket.username}</td>
                         <td>
-                          <button className='btn'><i class="bi bi-three-dots-vertical"></i></button>
+                          <button data-id={ticket.id} onClick={deleteMember} className='btn'><i class="bi bi-trash text-danger"></i></button>
                         </td>
                       </tr>
                     ))
@@ -251,10 +268,10 @@ export default function Project() {
           </div>
         }
         {
-          showTicketPopPup && <TicketPopup setFetchData={setFetchData} setShowTicketPopPup={setShowTicketPopPup} project_id={id} />
+          showTicketPopPup && <TicketPopup contributors={contributors} setContributors={setContributors} btnTxt="Add" setFetchData={setFetchData} setShowTicketPopPup={setShowTicketPopPup} project_id={id} popupRef={popupRef} method="POST"/>
         }
 
-      </div>
+      </main>
     </>
   );
 }

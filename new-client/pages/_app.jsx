@@ -18,7 +18,8 @@ export default function App({ Component, pageProps }) {
   return  <>
   <style jsx global>
     {`
-     body{
+     main{
+      min-height :100vh;
      }
 
     `}

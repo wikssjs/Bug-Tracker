@@ -40,7 +40,7 @@ export default function Tickets() {
   }
 
   return (
-    <div className={`${styles.tickets_wrapper} row mt-4 w-75 m-auto`}>
+    <main className={`${styles.tickets_wrapper} row mt-4 w-75 m-auto`}>
       <div className="col-md-12 h-25">
         <table className={`${styles.tickets} table shadow-lg rounded-5`}>
           <thead className="">
@@ -76,6 +76,6 @@ export default function Tickets() {
         </table>
       </div>
 
-    </div>
+    </main>
   )
 }
