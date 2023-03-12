@@ -3,7 +3,7 @@ import styles from '../styles/Admin.module.css'
 
 export default function Admin() {
     return (
-        <div className={`${styles.admin} col-md container-fluid px-5 mt-5`}>
+        <main className={`${styles.admin} col container-fluid px-5 mt-5`}>
 
             <h1 className="">Admin</h1>
 
@@ -29,7 +29,7 @@ export default function Admin() {
                 </div>
 
             </div>
-        </div>
+        </main>
 
     )
 }

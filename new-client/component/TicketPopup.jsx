@@ -1,40 +1,40 @@
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../styles/TicketPopup.module.css";
 
 
 
-export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchData,fetchData,popupRef,ticket,contributors,setContributors,btnTxt,method,assignees,ticket_id}) {
+export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchData, fetchData, popupRef, ticket, contributors, setContributors, btnTxt, method, assignees, ticket_id }) {
     // const [contributors, setContributors] = useState([]);
     const [title, setTitle] = useState(ticket && ticket.title);
     const [description, setDescription] = useState(ticket && ticket.description);
     const [status, setStatus] = useState(ticket ? ticket.status : "Open");
     const [priority, setPriority] = useState(ticket ? ticket.priority : "Low");
     const [chekedBoxes, setChekedBoxes] = useState([]);
-    let tour=0;
+    let tour = 0;
 
     useEffect(() => {
         fetch('http://192.168.0.26:5000/users')
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
-           
+
     }, [])
 
     useEffect(() => {
-        
-        if(tour === 0 && assignees){
+
+        if (tour === 0 && assignees) {
             const assignee = assignees && assignees.map(
                 (oldContributor) => {
                     return oldContributor.id
                 }
-                );
-                setChekedBoxes(assignee);
-            }
-                tour ++;
+            );
+            setChekedBoxes(assignee);
+        }
+        tour++;
 
-      }, [assignees]);
+    }, [assignees]);
 
-    
+
     function handleCheck(event) {
         if (!event.currentTarget.classList.contains('checked')) {
             console.log(chekedBoxes)
@@ -48,14 +48,15 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
 
 
     function closePopup() {
-        setShowTicketPopPup(false);    }
+        setShowTicketPopPup(false);
+    }
 
-   async function handleSumit(event) {
+    async function handleSumit(event) {
         event.preventDefault();
 
 
         const ticket = {
-            id:ticket_id,
+            id: ticket_id,
             title: title,
             description: description,
             status: status,
@@ -64,7 +65,7 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
             assignees_users: chekedBoxes
         }
 
-        
+
         let response = await fetch(`http://192.168.0.26:5000/${btnTxt}-ticket`, {
             method: `${method}`,
             headers: {
@@ -73,12 +74,12 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
             body: JSON.stringify(ticket)
         })
 
-        if(response.ok){
+        if (response.ok) {
             setShowTicketPopPup(false);
             setFetchData(!fetchData);
         }
 
-    
+
     }
 
     function handleTitleChange(event) {
@@ -109,67 +110,71 @@ export default function TicketPopup({ setShowTicketPopPup,project_id,setFetchDat
                     <h3 className="popup-title">Add Ticket</h3>
                     <button className={styles.popup_close} onClick={closePopup}>X</button>
                 </div>
-                <div className="popup-content">
+                <div className={`${styles.popup_content}  p-1`}>
                     <form className="popup-form  d-flex flex-column" onSubmit={handleSumit}>
-                        <label htmlFor="">
-                            <input defaultValue={ ticket && ticket.title} className='form-control' type="text" placeholder='Title' required onChange={handleTitleChange} />
-                        </label>
-                        <label htmlFor="">
-                            <textarea defaultValue={ticket && ticket.description} name="" id="" cols="30" rows="10" placeholder='Description' required onChange={handleDescriptionChange}></textarea>
-                        </label>
-                    
 
-                        <label htmlFor=""  className={styles.status}>
-                            <select defaultValue={ ticket && ticket.status} required  name="" id="" onChange={handleStatusChange} className={styles.select}>
-                                <option value="Open">Open</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Closed">Closed</option>
-                            </select>
-                            <i className={`bi bi-caret-down ${styles.arrow}`}></i>
+                        <div className={`${styles.form_inner}`}>
 
-                        </label>
-                       
-                        <label  htmlFor="" className={styles.status}>
-                            <select defaultValue={ ticket && ticket.priority} required name="" id="" onChange={handlePriorityChange} className={styles.select}>
-                                <option value="Low">Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
-                            </select>
+                            <label htmlFor="">
+                                <input defaultValue={ticket && ticket.title} className='form-control' type="text" placeholder='Title' required onChange={handleTitleChange} />
+                            </label>
+                            <label htmlFor="">
+                                <textarea defaultValue={ticket && ticket.description} name="" id="" cols="30" rows="10" placeholder='Description' required onChange={handleDescriptionChange}></textarea>
+                            </label>
 
-                            <i className={`bi bi-caret-down ${styles.arrow1}`}></i>
 
-                        </label>
+                            <label htmlFor="" className={styles.status}>
+                                <select defaultValue={ticket && ticket.status} required name="" id="" onChange={handleStatusChange} className={styles.select}>
+                                    <option value="Open">Open</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                                {/* <i className={`bi bi-caret-down ${styles.arrow}`}></i> */}
 
-                        <label htmlFor="">
-                            <div className={styles.users}>
-                                <div class="select-btn open">
-                                    <span class="btn-text">Assigned Users</span>
-                                    <span class="arrow-dwn">
-                                        <i class="fa-solid fa-chevron-down"></i>
-                                    </span>
+                            </label>
+
+                            <label htmlFor="" className={styles.status}>
+                                <select defaultValue={ticket && ticket.priority} required name="" id="" onChange={handlePriorityChange} className={styles.select}>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+
+                                {/* <i className={`bi bi-caret-down ${styles.arrow1}`}></i>
+                                <a href="">james</a> */}
+                            </label>
+
+                            <label htmlFor="" className={styles.users}>
+                                <div>
+                                    <div class="select-btn open">
+                                        <span class="btn-text">Assigned Users</span>
+                                        <span class="arrow-dwn">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </span>
+                                    </div>
+
+                                    <ul className={`${styles.listes_users} list-items overflow-scroll open`}>
+
+                                        {
+                                            contributors.map((contributor) => {
+
+                                                const isAssigned = assignees && assignees.find(assignee => assignee.id === contributor.id);
+
+                                                return (
+                                                    <li data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item ${isAssigned ? "checked" : ""}`}>
+                                                        <span class="checkbox">
+                                                            <i class="bi bi-check-lg check-icon"></i>
+                                                        </span>
+                                                        <span class="item-text">{contributor.username}</span>
+                                                    </li>
+                                                )
+                                            })
+                                        }
+
+                                    </ul>
                                 </div>
-
-                                <ul className={`${styles.listes_users} list-items overflow-scroll open`}>
-
-                                    {
-                                        contributors.map((contributor) => {
-
-                                            const isAssigned = assignees && assignees.find(assignee => assignee.id === contributor.id);
-
-                                            return (
-                                                <li data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item ${isAssigned ? "checked":""}`}>
-                                                    <span class="checkbox">
-                                                        <i class="bi bi-check-lg check-icon"></i>
-                                                    </span>
-                                                    <span class="item-text">{contributor.username}</span>
-                                                </li>
-                                            )
-                                        })
-                                    }
-
-                                </ul>
-                            </div>
-                        </label>
+                            </label>
+                        </div>
 
                         <button className={`${styles.submit} align-self-center btn-success`} type="submit">{btnTxt}</button>
                     </form>

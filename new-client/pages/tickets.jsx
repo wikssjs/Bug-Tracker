@@ -1,5 +1,6 @@
 import styles from '../styles/Tickets.module.css'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import TicketPopup from '../component/TicketPopup';
 
@@ -7,7 +8,9 @@ export default function Tickets() {
   const [showPopup, setShowPopup] = useState(false);
   const [tickets, setTickets] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3
+  const itemsPerPage = 5
+
+  const router = useRouter();
 
 
 
@@ -18,6 +21,11 @@ export default function Tickets() {
   }, [])
 
 
+  function redirectUser(event) {
+    const ticket_id = event.currentTarget.dataset.ticket_id;
+    const project_id = event.currentTarget.dataset.project_id;
+    router.push(`/ticket?ticket_id=${ticket_id}&project_id=${project_id}`)
+  }
 
   function getData() {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -44,7 +52,7 @@ export default function Tickets() {
       <div className="col-md-12 h-25">
         <table className={`${styles.tickets} table shadow-lg rounded-5`}>
           <thead className="">
-            <tr>
+            <tr >
               <th className="">Project</th>
               <th className="w-25">Ticket</th>
               <th className="w-25">Status</th>
@@ -55,9 +63,9 @@ export default function Tickets() {
           </thead>
           <tbody>
             {data.map((ticket) => (
-              <tr key={ticket.id} className=''>
+              <tr data-project_id={ticket.project_id} data-ticket_id={ticket.id} onClick={redirectUser} key={ticket.id} className=''>
                 <td>{ticket.name}</td>
-                <td><span className="text-dark text-wrap">{ticket.title}</span></td>
+                <td><span className="text-dark text-wrap">{ticket.title}{ticket.id}</span></td>
                 <td><span className="">{ticket.status}</span></td>
                 <td>{ticket.priority}</td>
                 <td>{ticket.username}</td>

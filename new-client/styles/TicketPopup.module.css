@@ -4,12 +4,18 @@
     z-index: 2;
     width: 400px;
     left: 20%;
-    top: 10%;
+    top: 2%;
     border-radius: 20px;
-    padding: 20px;
-    overflow-y: scroll;
+    /* padding: 20px; */
 }
 
+.popup_content{
+  z-index: 3;
+}
+
+.popup label{
+  width: 100%;
+}
 .popup textarea {
     width: 100%;
     resize: none;
@@ -88,6 +94,11 @@
     background-color: #333;
 }
 
+.form_inner{
+  height: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 
 /* CSS */
 .submit {
@@ -141,6 +152,10 @@
     min-width: 200px;
   }
 
+  .status{
+display: flex;
+background-color: ;
+  }
 
   .status .arrow {
     position: absolute;

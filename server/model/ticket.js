@@ -5,7 +5,7 @@ export const getAllTickets = async () => {
     let connexion = await promesseConnexion;
 
     let resultat = await connexion.all(
-        `SELECT *,p.name,u.username FROM tickets t
+        `SELECT t.title,t.status,t.priority,t.created_at,t.id,p.name,p.id as project_id,u.username FROM tickets t
         INNER JOIN projects p ON p.id = t.project_id
         INNER JOIN users u ON u.id = t.reported_by
         `
@@ -68,7 +68,18 @@ export const getTicketByIdModel = async (id) => {
 
     let resultat = await connexion.get(
         `SELECT t.title,t.id,t.status,t.priority,t.reported_by,t.created_at,t.description,
-            p.name,t.updated_at,u.username FROM tickets t 
+            p.name,t.updated_at,u.username ,
+            CASE 
+            WHEN status = 'Closed' THEN 'badge-danger'
+            WHEN status = 'In Progress' THEN 'badge-warning'
+            ELSE 'badge-success'
+          END AS status_badge,
+            CASE
+            WHEN priority = 'High' THEN 'badge-danger'
+            WHEN priority = 'Medium' THEN 'badge-warning'
+            ELSE 'badge-success'
+            END AS priority_badge
+           FROM tickets t 
         Inner join projects p on p.id = t.project_id
         Inner join users u on u.id = t.reported_by
         WHERE t.id = ?`,
@@ -98,6 +109,8 @@ export const editTicketModel = async (id,title, description, status,priority,pro
         [title, description, status,priority,project_id, reported_by,id]
 
     );
+
+    console.log(id,title, description, status,priority,project_id, reported_by,assignees_users);
 
     let resultat2 = await connexion.run(
         `delete from ticket_user where ticket_id = ?`,

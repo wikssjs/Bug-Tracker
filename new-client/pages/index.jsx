@@ -155,8 +155,14 @@ export default function Main() {
       </div>
       <Activity />
 
-      {showEditPopup &&
-        <EditPopup setNotification={setNotification} selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} setShowEditPopup={setShowEditPopup} editProject={editProject} />
+      {showEditPopup && (
+        <EditPopup
+          setNotification={setNotification}
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+          setShowEditPopup={setShowEditPopup}
+          editProject={editProject} />
+      )
       }
       {
         notification.show && (
