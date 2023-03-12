@@ -95,28 +95,6 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
 
     }
 
-    function handleOptionSelect(event) {
-        const selectedOption = event.target.value;
-
-
-        if (selectedOptions.includes(selectedOption)) {
-            setSelectedOptions(selectedOptions.filter(option => option !== selectedOption));
-        } else {
-            setSelectedOptions([...selectedOptions, selectedOption]);
-        }
-
-
-        contributors.forEach((option) => {
-            if (option.username === selectedOption) {
-                if (users.includes(option.id)) {
-                    setUsers(users.filter(user => user !== option.id));
-                } else {
-                    setUsers([...users, option.id]);
-                }
-            }
-        })
-
-    }
 
 
     return (<>

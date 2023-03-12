@@ -1,9 +1,15 @@
-import { getAllUsers } from '../model/utilisateur.js';
+import { getAllUsers,editUserModel } from '../model/utilisateur.js';
 
 export const getUsers = async (req, res) => {
     res.status(200).json({
         users: await getAllUsers(),
     });
+}
+
+
+export const EditUser = async (req, res) => {
+    await editUserModel(req.body.id,req.body.nom, req.body.prenom,req.body.username, req.body.email, req.body.role);
+    res.status(201).end();
 }
 
 

@@ -108,18 +108,7 @@
   font-size: 18px;   
 }
 
-.notification{
-  width: 300px;
-  height: 50px;
-  z-index: 3;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  border-radius: 10px;
-  background-color: #aaf0d1;
-  text-align: center;
 
-}
 
 .projects table{
   height: 250px;

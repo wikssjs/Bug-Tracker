@@ -25,6 +25,8 @@ if (!existsSync(process.env.DB_FILE)) {
         
         CREATE TABLE users (
             id INTEGER PRIMARY KEY,
+            nom TEXT NOT NULL,
+            prenom TEXT NOT NULL,
             username TEXT NOT NULL,
             email TEXT NOT NULL,
             password TEXT NOT NULL,
@@ -85,11 +87,11 @@ if (!existsSync(process.env.DB_FILE)) {
           INSERT INTO projects (name, description) VALUES ('Spring Boot', 'An open-source Java-based framework for building web applications and microservices');
           
 
-          INSERT INTO users (username, email, password, is_admin) VALUES ('johndoe', 'johndoe@example.com', 'password123', 0);
-          INSERT INTO users (username, email, password, is_admin) VALUES ('janedoe', 'janedoe@example.com', 'password456', 0);
-          INSERT INTO users (username, email, password, is_admin) VALUES ('admin', 'admin@example.com', 'adminpassword', 1);
-          INSERT INTO users (username, email, password, is_admin) VALUES ('bobsmith', 'bobsmith@example.com', 'password789', 0);
-          INSERT INTO users (username, email, password, is_admin) VALUES ('sarahjones', 'sarahjones@example.com', 'password321', 0);
+          INSERT INTO users (nom,prenom,username, email, password, is_admin) VALUES ('John','Doe','johndoe', 'johndoe@example.com', 'password123', 0);
+          INSERT INTO users (nom,prenom,username, email, password, is_admin) VALUES ('Jane','Doe','janedoe', 'janedoe@example.com', 'password456', 0);
+          INSERT INTO users (nom,prenom,username, email, password, is_admin) VALUES ('Admin','Admin','admin', 'admin@example.com', 'adminpassword', 1);
+          INSERT INTO users (nom,prenom,username, email, password, is_admin) VALUES ('Bob','Smith','bobsmith', 'bobsmith@example.com', 'password789', 0);
+          INSERT INTO users (nom,prenom,username, email, password, is_admin) VALUES ('Sarah','Jones','sarahjones', 'sarahjones@example.com', 'password321', 0);
 
           INSERT INTO project_user (project_id, user_id)
           VALUES (1, 1),

@@ -8,3 +8,8 @@
 .admin h2{
     font-size: 1.7em;
 }
+
+.admin table tbody tr:hover{
+    background-color: aliceblue;
+    cursor: pointer;
+}

@@ -7,10 +7,30 @@ import { hash } from 'bcrypt';
 export const getAllUsers = async () => {
     let connexion = await promesseConnexion;
     let resultat = await connexion.all(
-        `SELECT * from users`)
+        `SELECT *,
+        Case
+        when is_admin = 0 then 'Developer'
+        when is_admin = 1 then 'Admin'
+        end as role
+         from users
+        `)
 
         return resultat;
 }
+
+export const editUserModel = async (id,nom,prenom,username,email,role) => {
+    let connexion = await promesseConnexion;
+
+    const isAdmin = role === 'Admin' ? 1 : 0;
+
+    console.log(id,nom,prenom,username,email,role,isAdmin)
+    let resultat = await connexion.run(
+        `UPDATE users SET nom = ?, prenom = ?, username = ?, email = ?, is_admin = ? WHERE id = ?`,
+        [nom,prenom,username,email,isAdmin,id]
+    );
+    return resultat;
+}
+
 
 export const addUtilisateur = async (nomUtilisateur, motDePasse) => {
     let connexion = await promesseConnexion;

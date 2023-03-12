@@ -11,7 +11,7 @@ import middlewareSse from './middleware-sse.js';
 import { getTodos, addTodo, checkTodo } from './model/todo.js';
 import { validateContact } from './validation.js';
 import './authentification.js';
-import { connecterUser, deconnecterUser, getUsers } from './Controllers/UserController.js';
+import { connecterUser, deconnecterUser, EditUser, getUsers } from './Controllers/UserController.js';
 import { addProject, editProject, getDonnees, getProjectById, getAllProjects} from './Controllers/DataController.js';
 import { getTickets, addTicket,addMember,deleteMember,getTicketById,editTicket} from './Controllers/TicketController.js';
 // Création du serveur web
@@ -60,10 +60,12 @@ app.use(middlewareSse());
 app.use(express.static('public'));
 
 // Programmation de routes
-app.get('/',getDonnees)
-app.get('projects',getAllProjects)
+app.get('/',getDonnees);
+app.get('projects',getAllProjects);
 
-app.get("/users",getUsers)
+app.get("/users",getUsers);
+app.put('/edit-user',EditUser);
+
 
 app.post('/add-project', addProject);
 

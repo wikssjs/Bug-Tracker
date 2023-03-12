@@ -5,6 +5,7 @@ import EditPopup from '../component/EditPopup';
 import ProjectPopup from '../component/ProjectPopup';
 import Sidebar from '../component/Sidebar';
 import styles from '../styles/Accueil.module.css'
+import Notification from '../component/Notification';
 
 export default function Main() {
 
@@ -48,7 +49,6 @@ export default function Main() {
 
   useEffect(() => {
 
-    console.log('addProject', projects.inProgressBugs);
 
     let interval = setTimeout(() => {
       setNotification({ show: false, name: '', message: '' });
@@ -165,11 +165,7 @@ export default function Main() {
       )
       }
       {
-        notification.show && (
-          <div className={`${styles.notification} shadow-lg animate__animated animate__fadeInRight`}>
-            <p>The project <span className='text-info'>{notification.name}</span> {notification.message}</p>
-          </div>
-        )
+         <Notification notification={notification} setNotification={setNotification} />
       }
     </main>
   )
