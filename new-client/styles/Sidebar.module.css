@@ -1,5 +1,11 @@
 .sidebar{
-    font-size: 1.2em;
+    font-size: 1em;
+background: rgba(59, 113, 202, 1);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(0px);
+-webkit-backdrop-filter: blur(0px);
+border: 1px solid rgba(59, 113, 202, 0.3);
+width: 200px;
 }
 
 .sidebar h3{

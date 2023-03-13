@@ -88,6 +88,19 @@ export const getTicketByIdModel = async (id) => {
     return resultat;
 }
 
+
+export const getCommentsByTicketIdModel = async (id) => {
+    let connexion = await promesseConnexion;
+
+    let resultat = await connexion.all(
+        `SELECT c.id,c.comment,c.created_at,u.username FROM comments c
+        INNER JOIN users u ON u.id = c.user_id
+        WHERE c.ticket_id = ?`,
+        [id]
+    )
+    return resultat;
+}
+
 export const getAssignersModel = async (id) => {
     let connexion = await promesseConnexion;
 
