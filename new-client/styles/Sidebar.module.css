@@ -12,6 +12,13 @@ width: 200px;
     font-weight: bold;
 }
 
+.sidebar .logOut{
+    outline: none;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
 .nav_menu{
     list-style: none;
 }

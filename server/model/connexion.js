@@ -28,7 +28,7 @@ if (!existsSync(process.env.DB_FILE)) {
             nom TEXT NOT NULL,
             prenom TEXT NOT NULL,
             username TEXT NOT NULL,
-            email TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             is_admin INTEGER NOT NULL
           );
@@ -141,7 +141,16 @@ VALUES
             (9, 5),
             (10, 1);
             
-
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('This is a great feature!', 1, 2);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('I am having trouble with this', 2, 3);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('Thank you for your help!', 3, 1);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('I think there is a bug', 4, 5);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('This is not working as expected', 5, 4);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('Can you please provide more information?', 6, 2);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('I have a similar issue', 7, 3);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('The solution worked for me', 8, 4);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('Is there any update on this?', 9, 5);
+            INSERT INTO comments (text, ticket_id, user_id) VALUES ('Thank you for your prompt response', 10, 1);
 
         `
 

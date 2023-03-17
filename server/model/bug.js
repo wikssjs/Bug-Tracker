@@ -45,9 +45,10 @@ export const getContributors = async () => {
     let connexion = await promesseConnexion;
 
     let resultat = await connexion.all(
-        `SELECT * FROM users
-        INNER JOIN project_user ON users.id = project_user.user_id
-        Inner JOIN projects ON projects.id = project_user.project_id`
+        `SELECT u.id,u.nom,u.prenom,u.username,u.is_admin,
+        pu.project_id,pu.user_id, p.name,p.description FROM users u
+        INNER JOIN project_user pu ON u.id = pu.user_id
+        Inner JOIN projects p ON p.id = pu.project_id`
     )
     return resultat;
 }

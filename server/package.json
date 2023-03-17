@@ -5,13 +5,13 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon  server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Jonathan Wilkie",
+  "author": "James Bell",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": "18.9.0"
   }
 }

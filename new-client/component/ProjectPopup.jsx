@@ -10,12 +10,17 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [chekedBoxes, setChekedBoxes] = useState([]);
     const popupRef = useRef(null);
+    const [headers, setHeaders] = useState({
+        'Content-Type': 'application/json',
+        'X-API-Key': `ksklkweiowekdl908w03iladkl`
+      });
+
 
 
 
 
     useEffect(() => {
-        fetch('http://192.168.0.26:5000/users')
+        fetch('https://james-bug-api.herokuapp.com/users', {headers: headers})
             .then(res => res.json())
             .then(data => setContributors(data.users))
     }, [])
@@ -73,11 +78,9 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
         }
 
         //post request
-        let response = await fetch('http://192.168.0.26:5000/add-project', {
+        let response = await fetch('https://james-bug-api.herokuapp.com/add-project', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify(data)
         })
         console.log("datasend");
@@ -126,7 +129,7 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
                             contributors.map((contributor) => {
 
                                 return (
-                                    <li data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item `}>
+                                    <li key={contributor.id} data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item `}>
                                         <span class="checkbox">
                                             <i class="bi bi-check-lg check-icon"></i>
                                         </span>

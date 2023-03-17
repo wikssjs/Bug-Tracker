@@ -17,10 +17,15 @@ export default function Project() {
   const [chekedBoxes, setChekedBoxes] = useState([]);
   const popupRef = useRef(null);
   const [fetchData, setFetchData] = useState(false);
+  const [headers, setHeaders] = useState({
+                'Content-Type': 'application/json',
+                'X-API-Key': `ksklkweiowekdl908w03iladkl`
+              });
 
 
   useEffect(() => {
-    fetch(`http://192.168.0.26:5000/project/${id}`)
+
+    fetch(`https://james-bug-api.herokuapp.com/project/${id}`, { headers: headers })
       .then(res => res.json())
       .then((data) => {
       
@@ -29,7 +34,7 @@ export default function Project() {
       }
       )
 
-      fetch('http://192.168.0.26:5000/users')
+      fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
         .then(res => res.json())
         .then(data => setContributors(data.users))
   }, [fetchData])
@@ -103,16 +108,20 @@ export default function Project() {
 
 
  async function deleteMember(event) {
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-API-Key': `ksklkweiowekdl908w03iladkl`
+  };
+
     let data = {
       project_id: id,
       user_id: event.currentTarget.dataset.id
     }
 
-    let response = await fetch('http://192.168.0.26:5000/project/delete-member', {
+    let response = await fetch('https://james-bug-api.herokuapp.com/project/delete-member', {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: headers,
       body: JSON.stringify(data)
     })
 
@@ -123,6 +132,7 @@ export default function Project() {
   }
 
   async function addMembers() {
+
     let data = {
       project_id: id,
       users: chekedBoxes
@@ -130,12 +140,10 @@ export default function Project() {
 
     console.log(data)
 
-    let response = await fetch('http://192.168.0.26:5000/project/add-members', {
+    let response = await fetch('https://james-bug-api.herokuapp.com/project/add-members', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+      headers: headers,
+          body: JSON.stringify(data)
     })
 
     if (response.ok) {
@@ -176,7 +184,7 @@ export default function Project() {
                 <tbody>
                   {
                     team && team.map((user) => (
-                      <tr>
+                      <tr key={user.id}>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td>
@@ -213,7 +221,7 @@ export default function Project() {
                 <tbody>
                   {
                     project && project.map((ticket) => (
-                      <tr onClick={()=>{redirectUser(ticket.id)}}>
+                      <tr key={ticket.id} onClick={()=>{redirectUser(ticket.id)}}>
                         <td>{ticket.title}</td>
                         <td>{ticket.description}</td>
                         <td>{ticket.username}</td>
@@ -252,7 +260,7 @@ export default function Project() {
                     const isOldcontributor = team.find((user) => user.id === contributor.id);
 
                     return (
-                      <li data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item ${isOldcontributor ? "checked" : ""}`}>
+                      <li key={contributor.id} data-id={contributor.id} onClick={(event) => { event.currentTarget.classList.toggle("checked"); event.currentTarget.classList.contains("checked" ? handleCheck(event) : "") }} className={`item ${isOldcontributor ? "checked" : ""}`}>
                         <span class="checkbox">
                           <i class="bi bi-check-lg check-icon"></i>
                         </span>

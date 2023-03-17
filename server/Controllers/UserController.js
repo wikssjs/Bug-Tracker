@@ -1,4 +1,6 @@
-import { getAllUsers,editUserModel } from '../model/utilisateur.js';
+import { getAllUsers,editUserModel,addUserModel } from '../model/utilisateur.js';
+import passport from 'passport';
+
 
 export const getUsers = async (req, res) => {
     res.status(200).json({
@@ -13,11 +15,11 @@ export const EditUser = async (req, res) => {
 }
 
 
-export const inscrireUser = async (request, response,next) => {
+export const createUser = async (request, response,next) => {
        // Valider les données reçu du client
        if(true) {
         try {
-            await addUtilisateur(request.body.nomUtilisateur, request.body.motDePasse);
+            await addUserModel(request.body.firstname,request.body.lastname,request.body.email, request.body.username, request.body.password);
             response.status(201).end();
         }
         catch(error) {
@@ -35,7 +37,7 @@ export const inscrireUser = async (request, response,next) => {
 }
 
 
-export const connecterUser = async (request, response,next) => {
+export const logUser = async (request, response,next) => {
    // Valider les données reçu du client
    if(true) {
     passport.authenticate('local', (error, utilisateur, info) => {
@@ -62,13 +64,13 @@ else {
 }}
 
 
-export const deconnecterUser = async (request, response,next) => {
+export const logOutUser = async (request, response,next) => {
     request.logOut((error) => {
         if(error) {
             next(error);
         }
         else {
-            response.redirect('/');
-        }
+            response.status(200).end();
+     }
     });
 }

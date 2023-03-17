@@ -15,7 +15,12 @@ export default function Tickets() {
 
 
   useEffect(() => {
-    fetch('http://192.168.0.26:5000/tickets')
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-API-Key': `ksklkweiowekdl908w03iladkl`
+    };
+    fetch('https://james-bug-api.herokuapp.com/tickets', { headers: headers })
       .then(res => res.json())
       .then(data => setTickets(data.tickets))
   }, [])
@@ -69,7 +74,7 @@ export default function Tickets() {
                 <td><span className="">{ticket.status}</span></td>
                 <td>{ticket.priority}</td>
                 <td>{ticket.username}</td>
-                <td>{ticket.created_at}</td>
+                <td>{ticket.date_range}</td>
               </tr>
             ))}
           </tbody>
@@ -77,7 +82,7 @@ export default function Tickets() {
           <div className={styles.pagination}>
 
             <button className={styles.pagination_button} onClick={goToPreviousPage} disabled={currentPage === 1} >prev</button>
-            {pages.map((page) => { return <button className={`${styles.pagination_button} ${page + 1 === currentPage ? `${styles.active}` : ""}`} onClick={() => setCurrentPage(page + 1)}>{page + 1}</button> })}
+            {pages.map((page) => { return <button key={page+1} className={`${styles.pagination_button} ${page + 1 === currentPage ? `${styles.active}` : ""}`} onClick={() => setCurrentPage(page + 1)}>{page + 1}</button> })}
             <button className={styles.pagination_button} onClick={goToNextPage} disabled={currentPage === totalPages}>Next</button>
           </div>
 

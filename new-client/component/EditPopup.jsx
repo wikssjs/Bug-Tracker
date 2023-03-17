@@ -9,14 +9,18 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
     const [users, setUsers] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [chekedBoxes, setChekedBoxes] = useState([]);
+    const [headers, setHeaders] = useState({
+        'Content-Type': 'application/json',
+        'X-API-Key': `ksklkweiowekdl908w03iladkl`
+      });
+
+
     const itemRef = useRef(null);
 
-    let array = [];
-    let james = [];
     let tour = 0;
 
     useEffect(() => {
-        fetch('http://192.168.0.26:5000/users')
+        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
@@ -89,11 +93,9 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
 
 
         //post request
-        let response = await fetch('http://192.168.0.26:5000/edit-project', {
+        let response = await fetch('https://james-bug-api.herokuapp.com/edit-project', {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify(data)
         })
 
@@ -106,33 +108,6 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
         }
 
     }
-
-    function handleOptionSelect(event) {
-        const selectedOption = event.target.value;
-
-
-        if (selectedOptions.includes(selectedOption)) {
-            setSelectedOptions(selectedOptions.filter(option => option !== selectedOption));
-        } else {
-            setSelectedOptions([...selectedOptions, selectedOption]);
-        }
-
-        contributors.forEach((contributor) => {
-            if (contributor.username === selectedOption) {
-                if (users.includes(contributor)) {
-                    setUsers(users.filter(user => user.username !== contributor.username));
-                }
-                else {
-
-                    setUsers([...users, contributor]);
-                }
-            }
-        });
-        console.log("users")
-        console.log(users)
-        console.log("users")
-    }
-
 
     return (<>
 

@@ -11,11 +11,20 @@ import middlewareSse from './middleware-sse.js';
 import { getTodos, addTodo, checkTodo } from './model/todo.js';
 import { validateContact } from './validation.js';
 import './authentification.js';
-import { connecterUser, deconnecterUser, EditUser, getUsers } from './Controllers/UserController.js';
+import {createUser,logUser,logOutUser, EditUser, getUsers } from './Controllers/UserController.js';
 import { addProject, editProject, getDonnees, getProjectById, getAllProjects} from './Controllers/DataController.js';
-import { getTickets, addTicket,addMember,deleteMember,getTicketById,editTicket} from './Controllers/TicketController.js';
+import { getTickets, addTicket,addMember,deleteMember,getTicketById,editTicket, 
+        getCommentsByTicketId,deleteComment,addComment} from './Controllers/TicketController.js';
 // Création du serveur web
 let app = express();
+
+const validateApiKey = (req, res, next) => {
+    const apiKey = req.get('X-API-Key');
+    if (!apiKey || apiKey !== 'ksklkweiowekdl908w03iladkl') {
+      return res.status(401).json({ message: 'Invalid API key' });
+    }
+    next();
+  };
 
 // Création de l'engin dans Express
 app.engine('handlebars', engine({
@@ -58,6 +67,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(middlewareSse());
 app.use(express.static('public'));
+app.use(validateApiKey);
+
+
+
 
 // Programmation de routes
 app.get('/',getDonnees);
@@ -65,7 +78,6 @@ app.get('projects',getAllProjects);
 
 app.get("/users",getUsers);
 app.put('/edit-user',EditUser);
-
 
 app.post('/add-project', addProject);
 
@@ -82,6 +94,15 @@ app.get('/tickets',getTickets);
 app.post('/add-ticket',addTicket);
 app.get('/ticket',getTicketById);
 app.put('/edit-ticket',editTicket);
+
+app.get('/ticket/comments',getCommentsByTicketId);
+app.post('/ticket/comment/',addComment);
+app.delete('/ticket/comment/delete',deleteComment);
+
+app.post('/user/register', createUser);
+app.post('/user/login', logUser);
+app.post('/user/logout', logOutUser);
+
 
 app.get('/apropos', (request, response) => {
     if(request.session.countAPropos === undefined) {
@@ -188,13 +209,9 @@ app.post('/accept', (request, response) => {
     response.status(200).end();
 });
 
-app.post('/inscription', async (request, response, next) => {
- 
-});
+app.post('/connexion',logUser);
 
-app.post('/connexion',connecterUser);
-
-app.post('/deconnexion', deconnecterUser);
+app.post('/deconnexion', logOutUser);
 
 // Démarrage du serveur
 app.listen(process.env.PORT);

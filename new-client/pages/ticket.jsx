@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Comments from "../component/Comments";
 import TicketPopup from "../component/TicketPopup";
 import styles from "../styles/Ticket.Id.module.css";
 
@@ -10,12 +11,19 @@ export default function Ticket() {
     const [ticket, setTicket] = useState({});
     const [assignees, setAssignee] = useState([]);
     const [fetchData, setFetchData] = useState(false);
+
     const { ticket_id, project_id } = router.query;
 
     const [saveTicketId, setSaveTicketId] = useState(ticket_id);
     const [comment, setComment] = useState("");
 
     useEffect(() => {
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-API-Key': `ksklkweiowekdl908w03iladkl`
+          };
+
         if (ticket_id) {
             setSaveTicketId(ticket_id);
             localStorage.setItem('ticketId', ticket_id);
@@ -27,7 +35,7 @@ export default function Ticket() {
         }
 
         if (saveTicketId) {
-            fetch(`http://192.168.0.26:5000/ticket?ticket_id=${saveTicketId}`)
+            fetch(`https://james-bug-api.herokuapp.com/ticket?ticket_id=${saveTicketId}`, { headers: headers })
                 .then(res => res.json())
                 .then((data) => {
                     setTicket(data.ticket);
@@ -35,7 +43,7 @@ export default function Ticket() {
 
                 });
 
-            fetch('http://192.168.0.26:5000/users')
+            fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
                 .then(res => res.json())
                 .then(data => setContributors(data.users));
 
@@ -96,60 +104,7 @@ export default function Ticket() {
 
                         </div>
                     </div>
-                    <div class="container mt-5">
-                        <h2>Comments</h2>
-                        <hr />
-                        <div class="row">
-                            <div class="col">
-                                <div className="row shadow-lg">
-
-                                    <div class="comment-list  h-25 col-md-6">
-                                        <div className="overflow-scroll">
-
-                                            <div class="comment">
-                                                <div class="comment-header">
-                                                    <h4 class="comment-author">John Doe</h4>
-                                                    <span class="comment-date">March 12, 2023</span>
-                                                </div>
-                                                <div class="comment-body">
-                                                    <textarea readOnly={true} name="" id="" >
-                                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis, praesentium? Velit deserunt alias odio consectetur! Architecto, fugit debitis harum qui reprehenderit tenetur nobis asperiores ipsum aperiam, beatae optio ullam ex.</textarea>
-                                                </div>
-                                                <label htmlFor="text" onClick={handleClick}>
-                                                    <button className="btn position-absolute"> <i className="bi bi-pencil-square"></i></button>
-                                                </label>
-                                            </div>
-                                            <div class="comment position relative">
-                                                <div class="comment-header">
-                                                    <h4 class="comment-author">Jane Doe</h4>
-                                                    <span class="comment-date">March 11, 2023</span>
-                                                </div>
-                                                <div class="comment-body">
-                                                        <textarea readOnly id="text" name="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis, praesentium? Velit deserunt alias odio consectetur! Architecto, fugit debitis harum qui reprehenderit tenetur nobis asperiores ipsum aperiam, beatae optio ullam ex.</textarea>
-                                                </div>
-                                            </div>
-                                            <button className="btn position-absolute top-0"> <i className="bi bi-pencil-square"></i></button>
-                                        </div>
-                                        <div className="d-flex justify-content-center">
-                                            <button className="btn btn-primary justify-content-center">Edit <i className="bi bi-pencil-square"></i></button>
-
-                                        </div>
-                                    </div>
-                                    <div class="comment-form col-md-6">
-                                        <h4>Leave a Comment</h4>
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="comment">Comment</label>
-                                                <textarea class="form-control" id="comment" rows="5" required></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary align-seft-end">Submit</button>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   <Comments ticketId={ticket_id}/>
 
                 </div>
             </div>

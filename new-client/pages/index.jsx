@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Activity from '../component/Activity';
 import EditPopup from '../component/EditPopup';
 import ProjectPopup from '../component/ProjectPopup';
-import Sidebar from '../component/Sidebar';
 import styles from '../styles/Accueil.module.css'
 import Notification from '../component/Notification';
 
@@ -42,7 +41,13 @@ export default function Main() {
   }
 
   useEffect(() => {
-    fetch('http://192.168.0.26:5000/')
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-API-Key': `ksklkweiowekdl908w03iladkl`
+    };
+
+    fetch('https://james-bug-api.herokuapp.com/', { headers: headers })
       .then(res => res.json())
       .then(data => setProjects(data))
   }, [notification])
@@ -133,7 +138,7 @@ export default function Main() {
                       <td>{project.description}</td>
                       <td>{projects.contributors.map((user) => {
                         if (user.project_id === project.id) {
-                          return <p>{user.username}</p>
+                          return <p key={user.id}>{user.username}</p>
                         }
                       })}</td>
                       <button onClick={handleEdit} data-id={project.id} data-name={project.name} data-description={project.description} className={`${styles.editButton} btn btn-primary bg-primary d-flex gap-2`}>Edit <i className='bi bi-pencil-square'></i></button>
@@ -148,7 +153,7 @@ export default function Main() {
           <div className={styles.pagination}>
 
             <button className={styles.pagination_button} onClick={goToPreviousPage} disabled={currentPage === 1} >prev</button>
-            {pages.map((page) => { return <button className={`${styles.pagination_button} ${page + 1 === currentPage ? `${styles.active}` : ""}`} onClick={() => setCurrentPage(page + 1)}>{page + 1}</button> })}
+            {pages.map((page) => { return <button key={page+1} className={`${styles.pagination_button} ${page + 1 === currentPage ? `${styles.active}` : ""}`} onClick={() => setCurrentPage(page + 1)}>{page + 1}</button> })}
             <button className={styles.pagination_button} onClick={goToNextPage} disabled={currentPage === totalPages}>Next</button>
           </div>
         </div>

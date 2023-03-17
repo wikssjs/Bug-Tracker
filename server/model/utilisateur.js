@@ -1,5 +1,6 @@
 import { promesseConnexion } from './connexion.js';
-import { hash } from 'bcrypt';
+import pkg from 'bcryptjs';
+const { hash } = pkg;
 
 
 
@@ -7,12 +8,12 @@ import { hash } from 'bcrypt';
 export const getAllUsers = async () => {
     let connexion = await promesseConnexion;
     let resultat = await connexion.all(
-        `SELECT *,
+        `SELECT u.id,u.nom,u.prenom,u.username,u.email,u.is_admin,
         Case
         when is_admin = 0 then 'Developer'
         when is_admin = 1 then 'Admin'
         end as role
-         from users
+         from users u
         `)
 
         return resultat;
@@ -32,27 +33,27 @@ export const editUserModel = async (id,nom,prenom,username,email,role) => {
 }
 
 
-export const addUtilisateur = async (nomUtilisateur, motDePasse) => {
+export const addUserModel = async (firstname,lastname,email,username, password) => {
     let connexion = await promesseConnexion;
 
-    let motDePasseHash = await hash(motDePasse, 10);
+    let motDePasseHash = await hash(password, 10);
 
     await connexion.run(
-        `INSERT INTO utilisateur (nom_utilisateur, mot_de_passe, acces)
-        VALUES (?, ?, 0)`,
-        [nomUtilisateur, motDePasseHash]
+        `INSERT INTO users (nom,prenom,email, username, password, is_admin)
+        VALUES (?, ?, ?,?,?, 0)`,
+        [firstname,lastname,email, username, motDePasseHash]
     );
 }
 
-export const getUtilisateurByNom = async (nomUtilisateur) => {
+export const getUserByEmail = async (email) => {
     let connexion = await promesseConnexion;
 
-    let utilisateur = await connexion.get(
-        `SELECT id_utilisateur, nom_utilisateur, mot_de_passe, acces
-        FROM utilisateur
-        WHERE nom_utilisateur = ?`,
-        [nomUtilisateur]
+    let user = await connexion.get(
+        `SELECT id, email, password, is_admin
+        FROM users
+        WHERE email = ?`,
+        [email]
     )
 
-    return utilisateur;
+    return user;
 }

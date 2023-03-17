@@ -13,8 +13,18 @@ export default function Admin() {
     const [Role, setRole] = useState('')
     const formRef = useRef(null);
 
+    const [headers, setHeaders] = useState({
+        'Content-Type': 'application/json',
+        'X-API-Key': `ksklkweiowekdl908w03iladkl`
+      });
+
+
     useEffect(() => {
-        fetch('http://192.168.0.26:5000/users')
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-API-Key': `ksklkweiowekdl908w03iladkl`
+          };
+        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
             .then(res => res.json())
             .then(data => setUsers(data.users))
     }, [fetchData])
@@ -50,11 +60,9 @@ export default function Admin() {
             role: Role
         }
 
-        const response = await fetch('http://192.168.0.26:5000/edit-user', {
+        const response = await fetch('https://james-bug-api.herokuapp.com/edit-user', {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify(user)
         })
 
@@ -91,7 +99,7 @@ export default function Admin() {
                                     {
                                         users.map((user) => {
                                             return (
-                                                <tr data-id={user.id} onClick={handleClick}>
+                                                <tr key={user.id} data-id={user.id} onClick={handleClick}>
                                                     <td>{user.nom} {user.prenom}</td>
                                                     <td>{user.role}</td>
                                                 </tr>

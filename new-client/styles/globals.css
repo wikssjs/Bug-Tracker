@@ -119,6 +119,10 @@ option{
   border: 1px solid #ccc;
 }
 
+.comment-list .comments{
+  height: 300px;
+}
+
 .comment {
   position: relative;
   margin-bottom: 20px;
@@ -147,6 +151,7 @@ option{
 .comment-date {
   margin-left: auto;
   color: #999;
+  margin-right: 20px;
 }
 
 
@@ -155,7 +160,6 @@ option{
   background-color: #fff;
   border: 1px solid #ccc;
   position: relative;
-  background-color: yellow;
 }
 .comment-body .text button{
   position: absolute; 

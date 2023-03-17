@@ -1,4 +1,5 @@
-import { getAllTickets,addTicketModel,addMemberModel,deleteMemberModel,getTicketByIdModel,getAssignersModel,editTicketModel } from "../model/ticket.js";
+import { getAllTickets,addTicketModel,addMemberModel,deleteMemberModel,
+        getTicketByIdModel,getAssignersModel,editTicketModel,getCommentsByTicketIdModel,deleteCommentModel,addCommentModel } from "../model/ticket.js";
 
 export const getTickets = async (request, response) => {
     response.status(200).json({
@@ -33,4 +34,21 @@ export const getTicketById = async (request, response) => {
 export const editTicket = async (request, response) => {
    await editTicketModel(request.body.id,request.body.title, request.body.description, request.body.status, request.body.priority, request.body.project_id,4, request.body.assignees_users);
    response.status(201).end();
+}
+
+export const getCommentsByTicketId = async (request, response) => {
+    const idTicket =request.query.ticket_id;
+    response.status(200).json({
+        comments: await getCommentsByTicketIdModel(idTicket)
+    });
+}
+
+export const deleteComment = async (request, response) => {
+    await deleteCommentModel(request.body.id,request.body.ticket_id);
+    response.status(201).end();
+}
+
+export const addComment = async (request, response) => {
+    await addCommentModel(request.body.text,request.body.ticket_id,2);
+    response.status(201).end();
 }
