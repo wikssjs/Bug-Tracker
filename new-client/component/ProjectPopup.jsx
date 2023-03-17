@@ -24,7 +24,7 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
             'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
         });
 
-        fetch('http://192.168.0.26:5000/users', {headers: headers})
+        fetch('https://james-bug-api.herokuapp.com/users', {headers: headers})
             .then(res => res.json())
             .then(data => setContributors(data.users))
     }, [])
@@ -82,7 +82,7 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
         }
 
         //post request
-        let response = await fetch('http://192.168.0.26:5000/add-project', {
+        let response = await fetch('https://james-bug-api.herokuapp.com/add-project', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(data)

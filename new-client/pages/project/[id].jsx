@@ -33,7 +33,7 @@ export default function Project() {
         'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
     });
 
-    fetch(`http://192.168.0.26:5000/project/${id}`, { headers: headers })
+    fetch(`https://james-bug-api.herokuapp.com/project/${id}`, { headers: headers })
       .then(res => res.json())
       .then((data) => {
       
@@ -42,7 +42,7 @@ export default function Project() {
       }
       )
 
-      fetch('http://192.168.0.26:5000/users', { headers: headers })
+      fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
         .then(res => res.json())
         .then(data => setContributors(data.users))
   }, [fetchData])
@@ -127,7 +127,7 @@ export default function Project() {
       user_id: event.currentTarget.dataset.id
     }
 
-    let response = await fetch('http://192.168.0.26:5000/project/delete-member', {
+    let response = await fetch('https://james-bug-api.herokuapp.com/project/delete-member', {
       method: 'DELETE',
       headers: headers,
       body: JSON.stringify(data)
@@ -148,7 +148,7 @@ export default function Project() {
 
     console.log(data)
 
-    let response = await fetch('http://192.168.0.26:5000/project/add-members', {
+    let response = await fetch('https://james-bug-api.herokuapp.com/project/add-members', {
       method: 'POST',
       headers: headers,
           body: JSON.stringify(data)
