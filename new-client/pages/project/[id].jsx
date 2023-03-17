@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
+import jwt from 'jsonwebtoken';
 import styles from '../../styles/Project.module.css';
 import TicketPopup from '../../component/TicketPopup';
 
@@ -17,15 +18,22 @@ export default function Project() {
   const [chekedBoxes, setChekedBoxes] = useState([]);
   const popupRef = useRef(null);
   const [fetchData, setFetchData] = useState(false);
-  const [headers, setHeaders] = useState({
-                'Content-Type': 'application/json',
-                'X-API-Key': `ksklkweiowekdl908w03iladkl`
-              });
+  const [headers, setHeaders] = useState({});
 
 
   useEffect(() => {
 
-    fetch(`https://james-bug-api.herokuapp.com/project/${id}`, { headers: headers })
+    const token = localStorage.getItem('token');
+    const decoded = jwt.decode(token);
+    if(!decoded) {
+      router.push('/connexion');
+    }
+     setHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
+    });
+
+    fetch(`http://192.168.0.26:5000/project/${id}`, { headers: headers })
       .then(res => res.json())
       .then((data) => {
       
@@ -34,7 +42,7 @@ export default function Project() {
       }
       )
 
-      fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+      fetch('http://192.168.0.26:5000/users', { headers: headers })
         .then(res => res.json())
         .then(data => setContributors(data.users))
   }, [fetchData])
@@ -119,7 +127,7 @@ export default function Project() {
       user_id: event.currentTarget.dataset.id
     }
 
-    let response = await fetch('https://james-bug-api.herokuapp.com/project/delete-member', {
+    let response = await fetch('http://192.168.0.26:5000/project/delete-member', {
       method: 'DELETE',
       headers: headers,
       body: JSON.stringify(data)
@@ -140,7 +148,7 @@ export default function Project() {
 
     console.log(data)
 
-    let response = await fetch('https://james-bug-api.herokuapp.com/project/add-members', {
+    let response = await fetch('http://192.168.0.26:5000/project/add-members', {
       method: 'POST',
       headers: headers,
           body: JSON.stringify(data)

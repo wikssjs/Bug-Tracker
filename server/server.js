@@ -7,73 +7,77 @@ import compression from 'compression';
 import session from 'express-session';
 import memorystore from 'memorystore';
 import passport from 'passport';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
 import middlewareSse from './middleware-sse.js';
 import { getTodos, addTodo, checkTodo } from './model/todo.js';
 import { validateContact } from './validation.js';
 import './authentification.js';
-import {createUser,logUser,logOutUser, EditUser, getUsers } from './Controllers/UserController.js';
+import {createUser,logUser,logOutUser, EditUser, getUsers,getCurrentUser } from './Controllers/UserController.js';
 import { addProject, editProject, getDonnees, getProjectById, getAllProjects} from './Controllers/DataController.js';
 import { getTickets, addTicket,addMember,deleteMember,getTicketById,editTicket, 
         getCommentsByTicketId,deleteComment,addComment} from './Controllers/TicketController.js';
 // Création du serveur web
 let app = express();
 
+
 const validateApiKey = (req, res, next) => {
-    const apiKey = req.get('X-API-Key');
+    console.log(req.get('authorization'));
+
+    if(req.get('authorization')) {
+    const apiKey = req.get('authorization').split(' ')[0];
     if (!apiKey || apiKey !== 'ksklkweiowekdl908w03iladkl') {
       return res.status(401).json({ message: 'Invalid API key' });
+    }
     }
     next();
   };
 
-// Création de l'engin dans Express
-app.engine('handlebars', engine({
-    helpers: {
-        afficheArgent: (nombre) => nombre && nombre.toFixed(2) + ' $'
-        /*{
-            if(nombre){
-                return nombre.toFixed(2) + ' $';
-            }
-            else {
-                return null;
-            }
-        }*/
-    }
-}));
-
-// Mettre l'engin handlebars comme engin de rendu
-app.set('view engine', 'handlebars');
-
-// Configuration de handlebars
-app.set('views', './views');
 
 // Créer le constructeur de base de données
 const MemoryStore = memorystore(session);
 
 // Ajout de middlewares
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 app.use(compression());
 app.use(json());
+app.use(validateApiKey);
 app.use(session({
-    cookie: { maxAge: 1800000 },
     name: process.env.npm_package_name,
-    store: new MemoryStore({ checkPeriod: 1800000 }),
+    store: new MemoryStore({ checkPeriod: 86400000 }),
     resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
+    cookie:{secure:true, maxAge: 86400000},
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(middlewareSse());
-app.use(express.static('public'));
-app.use(validateApiKey);
 
-
-
+// // Define a middleware function to protect routes
+// function withAuth(req, res, next) {
+//     const token = req.headers.authorization?.split(' ')[1];
+//     if (!token) {
+//         res.redirect('/connexion');
+//     } else {
+//       try {
+//         const decodedToken = jwt.verify(token, process.env.SESSION_SECRET); // Verify the token
+//         req.user = decodedToken; // Store the user object in the request object
+//         next(); // Call the next middleware or route handler
+//       } catch (error) {
+//         res.redirect('/connexion');
+//       }
+//     }
+//   }
 
 // Programmation de routes
-app.get('/',getDonnees);
+app.get('/', getDonnees);
 app.get('projects',getAllProjects);
 
 app.get("/users",getUsers);
@@ -99,6 +103,7 @@ app.get('/ticket/comments',getCommentsByTicketId);
 app.post('/ticket/comment/',addComment);
 app.delete('/ticket/comment/delete',deleteComment);
 
+app.get('/user',getCurrentUser);
 app.post('/user/register', createUser);
 app.post('/user/login', logUser);
 app.post('/user/logout', logOutUser);

@@ -1,11 +1,22 @@
-import {useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/authentification.module.css';
 
-export default function Connexion(){
+export default function Connexion() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [headers, setHeaders] = useState({});
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
+
+        });
+    }, [])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -14,28 +25,64 @@ export default function Connexion(){
             password: password
         }
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'X-API-Key': `ksklkweiowekdl908w03iladkl`
-          };
-        let response  = await fetch(`https://james-bug-api.herokuapp.com/user/login`, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(user)
+        try {
 
-        });
 
-        if(response.ok){
-           
-            window.location.href = "/";
+            let response = await fetch(`http://192.168.0.26:5000/user/login`, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+                const { token } = await response.json();
+                localStorage.setItem("token", token);
+
+                window.location.href = "/";
+            }
+            else {
+                setError("Email or password incorrect");
+            }
+        } catch (error) {
+            console.error(error);
+
         }
 
-        else{
-            setError("Email or password incorrect");
-        }
 
     }
 
+    const logDemoUser = async () => {
+        const user = {
+            email: "james@gmail.com",
+            password: "james",
+        }
+
+        try {
+
+
+            let response = await fetch(`http://192.168.0.26:5000/user/login`, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+                const { token } = await response.json();
+                localStorage.setItem("token", token);
+
+                window.location.href = "/";
+            }
+            else {
+                setError("Email or password incorrect");
+            }
+        } catch (error) {
+            console.error(error);
+
+        }
+    }
+
+
+    
     return (
         <main className="container col">
             <div className="row d-flex h-100">
@@ -50,15 +97,18 @@ export default function Connexion(){
                                     <label htmlFor="email">Email</label>
                                     <input type="email" name="email" id="email" className="form-control" onChange={(event) => setEmail(event.target.value)} />
                                 </div>
-                                <div  className={`${styles.form_group} form-group`}>
+                                <div className={`${styles.form_group} form-group`}>
                                     <label htmlFor="password">Password</label>
                                     <input type="password" name="password" id="password" className="form-control" onChange={(event) => setPassword(event.target.value)} />
                                 </div>
-                                <div  className={`${styles.form_group} form-group d-flex justify-content-center`}>
+                                <div className={`${styles.form_group} form-group d-flex justify-content-center`}>
                                     <button type="submit" className="btn btn-primary">Login</button>
                                 </div>
+                                <div className={`${styles.form_group} form-group d-flex justify-content-center`}>
+                                    <button onClick={logDemoUser} className="btn btn-primary btn-lg">Demo Login</button>
+                                </div>
                                 <div>
-                                <label htmlFor="username"> <Link href="/register"> dont have an account? Register</Link></label>
+                                    <label htmlFor="username"> <Link href="/register"> dont have an account? Register</Link></label>
                                 </div>
                                 <div className="form-group text-center">
                                     <p className="text-danger">{error}</p>

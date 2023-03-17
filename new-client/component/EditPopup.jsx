@@ -9,18 +9,20 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
     const [users, setUsers] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [chekedBoxes, setChekedBoxes] = useState([]);
-    const [headers, setHeaders] = useState({
-        'Content-Type': 'application/json',
-        'X-API-Key': `ksklkweiowekdl908w03iladkl`
-      });
+    const [headers, setHeaders] = useState({});
 
-
-    const itemRef = useRef(null);
 
     let tour = 0;
 
     useEffect(() => {
-        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+
+        const token = localStorage.getItem('token');
+        setHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
+        });
+
+        fetch('http://192.168.0.26:5000/users', { headers: headers })
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
@@ -93,7 +95,7 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
 
 
         //post request
-        let response = await fetch('https://james-bug-api.herokuapp.com/edit-project', {
+        let response = await fetch('http://192.168.0.26:5000/edit-project', {
             method: 'PUT',
             headers: headers,
             body: JSON.stringify(data)
@@ -104,7 +106,6 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
             setShowEditPopup(false);
         }
         else {
-            alert('error')
         }
 
     }

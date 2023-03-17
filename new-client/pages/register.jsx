@@ -7,6 +7,7 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const[headers, setHeaders] = useState({});
     const [error, setError] = useState("");
 
     const handleSubmit = async (event) => {
@@ -19,13 +20,14 @@ export default function Register() {
             password: password
         }
 
-        const headers = {
+        const token = localStorage.getItem('token');
+        setHeaders({
             'Content-Type': 'application/json',
-            'X-API-Key': `ksklkweiowekdl908w03iladkl`
-          };
+            'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
+        });
 
 
-        let response = await fetch(`https://james-bug-api.herokuapp.com/user/register`, {
+        let response = await fetch(`http://192.168.0.26:5000/user/register`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(user)
@@ -37,7 +39,6 @@ export default function Register() {
         }
 
         else {
-            alert("user not created");
             setError("Email or password incorrect");
         }
 

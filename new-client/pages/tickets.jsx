@@ -1,13 +1,13 @@
 import styles from '../styles/Tickets.module.css'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
+import jwt from 'jsonwebtoken';
 import { useEffect, useState } from 'react'
-import TicketPopup from '../component/TicketPopup';
 
 export default function Tickets() {
   const [showPopup, setShowPopup] = useState(false);
-  const [tickets, setTickets] = useState([])
+  const [tickets, setTickets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [headers, setHeaders] = useState({});
   const itemsPerPage = 5
 
   const router = useRouter();
@@ -16,13 +16,20 @@ export default function Tickets() {
 
   useEffect(() => {
 
-    const headers = {
-      'Content-Type': 'application/json',
-      'X-API-Key': `ksklkweiowekdl908w03iladkl`
-    };
-    fetch('https://james-bug-api.herokuapp.com/tickets', { headers: headers })
+    const token = localStorage.getItem('token');
+    const decoded = jwt.decode(token);
+    if(!decoded) {
+      router.push('/connexion');
+    }
+    setHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
+    });
+
+    fetch('http://192.168.0.26:5000/tickets', { headers: headers })
       .then(res => res.json())
-      .then(data => setTickets(data.tickets))
+      .then(data =>setTickets(data.tickets))
+      
   }, [])
 
 

@@ -1,14 +1,17 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import jwt from 'jsonwebtoken';
 import Activity from '../component/Activity';
 import EditPopup from '../component/EditPopup';
 import ProjectPopup from '../component/ProjectPopup';
 import styles from '../styles/Accueil.module.css'
 import Notification from '../component/Notification';
 
-export default function Main() {
+export default function Main({user}) {
 
   const [projects, setProjects] = useState({ projects: [], contributors: [] });
+  const [currentUser, setCurrentUser] = useState({});
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [addProjet, setAddProject] = useState({ name: '', description: '', contributors: [] });
@@ -17,6 +20,8 @@ export default function Main() {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3
+
+  const router = useRouter();
 
 
   function getData() {
@@ -42,15 +47,20 @@ export default function Main() {
 
   useEffect(() => {
 
+    const token = localStorage.getItem('token');
+    const decoded = jwt.decode(token);
+    if(!decoded) {
+      router.push('/connexion');
+    }
     const headers = {
       'Content-Type': 'application/json',
-      'X-API-Key': `ksklkweiowekdl908w03iladkl`
+      'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
     };
 
-    fetch('https://james-bug-api.herokuapp.com/', { headers: headers })
+    fetch('http://192.168.0.26:5000/', { headers: headers })
       .then(res => res.json())
       .then(data => setProjects(data))
-  }, [notification])
+  }, [])
 
   useEffect(() => {
 
@@ -81,7 +91,7 @@ export default function Main() {
   }
 
   return (
-    <main className="col-sm-10 main-content mt-2 h-100">
+    <main className="col-sm-10 main-content mt-2 h-100 d-flex flex-column align-items-center m-auto">
       {
         showPopup && <ProjectPopup selectedOption={selectedOptions} setSelectedOption={setSelectedOptions} setShowPopup={setShowPopup} setNotification={setNotification} setAddProject={setAddProject} />
       }

@@ -13,18 +13,17 @@ export default function Admin() {
     const [Role, setRole] = useState('')
     const formRef = useRef(null);
 
-    const [headers, setHeaders] = useState({
-        'Content-Type': 'application/json',
-        'X-API-Key': `ksklkweiowekdl908w03iladkl`
-      });
+    const [headers, setHeaders] = useState({});
 
 
     useEffect(() => {
-        const headers = {
+        const token = localStorage.getItem('token');
+        setHeaders({
             'Content-Type': 'application/json',
-            'X-API-Key': `ksklkweiowekdl908w03iladkl`
-          };
-        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+            'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
+        });
+
+        fetch('http://192.168.0.26:5000/users', { headers: headers })
             .then(res => res.json())
             .then(data => setUsers(data.users))
     }, [fetchData])
@@ -60,7 +59,7 @@ export default function Admin() {
             role: Role
         }
 
-        const response = await fetch('https://james-bug-api.herokuapp.com/edit-user', {
+        const response = await fetch('http://192.168.0.26:5000/edit-user', {
             method: 'PUT',
             headers: headers,
             body: JSON.stringify(user)
