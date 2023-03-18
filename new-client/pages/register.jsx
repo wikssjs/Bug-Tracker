@@ -30,7 +30,7 @@ export default function Register() {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
 
-    let response = await fetch(`http://192.168.0.26:5000/user/register`, {
+    let response = await fetch(`https://james-bug-api.herokuapp.com/user/register`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(user),

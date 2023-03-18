@@ -34,7 +34,7 @@ export default function Connexion() {
         try {
 
 
-            let response = await fetch(`http://192.168.0.26:5000/user/login`, {
+            let response = await fetch(`https://james-bug-api.herokuapp.com/user/login`, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(user),
@@ -69,7 +69,7 @@ export default function Connexion() {
         try {
 
 
-            let response = await fetch(`http://192.168.0.26:5000/user/login`, {
+            let response = await fetch(`https://james-bug-api.herokuapp.com/user/login`, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(user),

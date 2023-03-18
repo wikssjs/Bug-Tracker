@@ -116,11 +116,14 @@ option{
 .comment-list {
   padding: 20px;
   background-color: #f8f8f8;
-  border: 1px solid #ccc;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.comment-list .comments{
+.comment-list .comments {
   height: 300px;
+  overflow-y: auto;
 }
 
 .comment {
@@ -128,9 +131,9 @@ option{
   margin-bottom: 20px;
 }
 
-.comment button{
+.comment button {
   top: 3%;
-  right: 45%
+  right: 45%;
 }
 
 .comment-header {
@@ -146,6 +149,8 @@ option{
 
 .comment-author {
   margin-bottom: 0;
+  font-weight: bold;
+  color: #4a4a4a;
 }
 
 .comment-date {
@@ -154,33 +159,37 @@ option{
   margin-right: 20px;
 }
 
-
 .comment-body {
   padding: 10px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #e0e0e0;
   position: relative;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.comment-body .text button{
-  position: absolute; 
+
+.comment-body .text button {
+  position: absolute;
   top: 0;
   right: 0;
 }
 
-.comment-body textarea{
+.comment-body textarea {
   width: 100%;
   border: none;
   height: 150px;
   resize: none;
   overflow: hidden;
   font-size: 1.2em;
-  
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
 }
 
-.comment-body textarea:focus{
+.comment-body textarea:focus {
   border: none;
   outline: none;
 }
+
 .comment-form {
   margin-top: 50px;
 }
@@ -200,16 +209,19 @@ option{
   margin-bottom: 20px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-family: 'Roboto', sans-serif;
 }
 
 .comment-form button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-image: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
   border: none;
   border-radius: 5px;
   color: #fff;
+  transition: background-image 0.2s;
 }
 
 .comment-form button:hover {
-  background-color: #0069d9;
+  background-image: linear-gradient(135deg, #A5FFD6 0%, #007ADF 100%);
 }
+

@@ -22,7 +22,7 @@ export default function Admin() {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
 
-    fetch("http://192.168.0.26:5000/users", { headers: headers })
+    fetch("https://james-bug-api.herokuapp.com/users", { headers: headers })
       .then((res) => res.json())
       .then((data) => setUsers(data.users));
   }, [fetchData]);
@@ -54,7 +54,7 @@ export default function Admin() {
       role: Role,
     };
 
-    const response = await fetch("http://192.168.0.26:5000/edit-user", {
+    const response = await fetch("https://james-bug-api.herokuapp.com/edit-user", {
       method: "PUT",
       headers: headers,
       body: JSON.stringify(user),
@@ -73,7 +73,6 @@ export default function Admin() {
   return (
     <main className={`${styles.admin} col container-fluid px-5 mt-5`}>
       <div className="row">
-        {//*Users Table}
         <div className="col-md-6">
           <div className="card shadow-lg">
             <div className="card-header">
@@ -104,7 +103,6 @@ export default function Admin() {
           </div>
         </div>
 
-        {//*Edit User Form}
 
         <div className="col-md-6">
           <div className="card shadow-lg">

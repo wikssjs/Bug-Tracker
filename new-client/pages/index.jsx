@@ -10,7 +10,7 @@ import Notification from "../component/Notification";
 
 export default function Main({ user }) {
   //* State Variables
-  const [projects, setProjects] = useState({ projects: [], contributors: [] });
+  const [projects, setProjects] = useState({ projects: [], contributors: [],activities: [] });
   const [currentUser, setCurrentUser] = useState({});
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
@@ -75,7 +75,7 @@ export default function Main({ user }) {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     };
 
-    fetch("http://192.168.0.26:5000/", { headers: headers })
+    fetch("https://james-bug-api.herokuapp.com/", { headers: headers })
       .then((res) => res.json())
       .then((data) => setProjects(data));
   }, [fetchData]);
@@ -216,7 +216,7 @@ export default function Main({ user }) {
                       className={`${styles.editButton} btn btn-primary bg-primary d-flex gap-2`}
                     >
                       {" "}
-                      <span className="d-none d-md-flex">Edit{project.id}</span>{" "}
+                      <span className="d-none d-md-flex">Edit</span>{" "}
                       <i className="bi bi-pencil-square"></i>
                     </button>
                   </tr>
@@ -224,6 +224,7 @@ export default function Main({ user }) {
               })}
             </tbody>
           </table>
+        </div>
           <div className={styles.pagination}>
             <button
               className={styles.pagination_button}
@@ -253,9 +254,8 @@ export default function Main({ user }) {
               Next
             </button>
           </div>
-        </div>
       </div>
-      <Activity />
+      <Activity activities={projects.activities}/>
 
       {showEditPopup && (
         <EditPopup
