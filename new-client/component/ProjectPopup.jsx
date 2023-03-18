@@ -24,7 +24,7 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
             'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
         });
 
-        fetch('https://james-bug-api.herokuapp.com/users', {headers: headers})
+        fetch('http://192.168.0.26:5000/users', {headers: headers})
             .then(res => res.json())
             .then(data => setContributors(data.users))
     }, [])
@@ -48,11 +48,9 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
 
     function handleCheck(event) {
         if (!event.currentTarget.classList.contains('checked')) {
-            console.log(chekedBoxes)
             setChekedBoxes(chekedBoxes.filter(box => box !== Number(event.currentTarget.dataset.id)));
         }
         else {
-            console.log(chekedBoxes)
             setChekedBoxes([...chekedBoxes, Number(event.currentTarget.dataset.id)]);
         }
     }
@@ -82,22 +80,18 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
         }
 
         //post request
-        let response = await fetch('https://james-bug-api.herokuapp.com/add-project', {
+        let response = await fetch('http://192.168.0.26:5000/add-project', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(data)
         })
-        console.log("datasend");
 
-        console.log(data);
-        console.log("datasend");
 
         if (response.ok) {
             setNotification({ show: true, name: name, message: 'has been created' });
             setShowPopup(false);
         }
         else {
-            console.log('error')
         }
 
     }

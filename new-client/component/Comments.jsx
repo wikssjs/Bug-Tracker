@@ -30,7 +30,7 @@ export default function Comments({ticketId}) {
 
         if(saveTicketId) {
         
-        fetch(`https://james-bug-api.herokuapp.com/ticket/comments?ticket_id=${ticketId}`, { headers: headers })
+        fetch(`http://192.168.0.26:5000/ticket/comments?ticket_id=${ticketId}`, { headers: headers })
             .then(res => res.json())
             .then(data => setComments(data.comments));
 
@@ -46,7 +46,7 @@ export default function Comments({ticketId}) {
             ticket_id:saveTicketId
         }
 
-        let response  = await fetch(`https://james-bug-api.herokuapp.com/ticket/comment/delete`, {
+        let response  = await fetch(`http://192.168.0.26:5000/ticket/comment/delete`, {
             method: "DELETE",
             headers: headers,
             body: JSON.stringify(comment)
@@ -74,7 +74,7 @@ export default function Comments({ticketId}) {
             ticket_id: saveTicketId
         }
 
-        let response = await fetch(`https://james-bug-api.herokuapp.com/ticket/comment`, {
+        let response = await fetch(`http://192.168.0.26:5000/ticket/comment`, {
             method: "POST",
             headers: headers,
             body: JSON.stringify(commentData)
@@ -93,7 +93,7 @@ export default function Comments({ticketId}) {
 
 
     return (
-        <div class="container mt-5">
+        <div class="mt-5">
             <h2>Comments</h2>
             <hr />
             <div class="row">

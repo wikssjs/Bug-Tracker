@@ -3,7 +3,7 @@ import styles from "../styles/TicketPopup.module.css";
 
 
 
-export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchData, fetchData, popupRef, ticket, contributors, setContributors, btnTxt, method, assignees, ticket_id }) {
+export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchData, fetchData, popupRef, ticket, contributors, setContributors, btnTxt, method, assignees, ticket_id,user }) {
     // const [contributors, setContributors] = useState([]);
     const [title, setTitle] = useState(ticket && ticket.title);
     const [description, setDescription] = useState(ticket && ticket.description);
@@ -22,7 +22,7 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
             'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
         });
 
-        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+        fetch('http://192.168.0.26:5000/users', { headers: headers })
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
@@ -46,11 +46,9 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
 
     function handleCheck(event) {
         if (!event.currentTarget.classList.contains('checked')) {
-            console.log(chekedBoxes)
             setChekedBoxes(chekedBoxes.filter(box => box !== Number(event.currentTarget.dataset.id)));
         }
         else {
-            console.log(chekedBoxes)
             setChekedBoxes([...chekedBoxes, Number(event.currentTarget.dataset.id)]);
         }
     }
@@ -75,7 +73,7 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
         }
 
 
-        let response = await fetch(`https://james-bug-api.herokuapp.com/${btnTxt}-ticket`, {
+        let response = await fetch(`http://192.168.0.26:5000/${btnTxt}-ticket`, {
             method: `${method}`,
             headers: headers,
             body: JSON.stringify(ticket)

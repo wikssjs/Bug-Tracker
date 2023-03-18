@@ -1,14 +1,14 @@
 .tickets_wrapper{
     height: 200px;
 }
+.table_wrapper {
+  max-height: 900px; /* set the maximum height */
+  overflow: auto; /* add scrollbars when necessary */
+}
+
 .tickets thead{
     background-color:#FB8500 ;
 }
-
-.tickets .link{
-    width: 2000px;
-}
-
 
 .tickets tr{
     cursor: pointer;

@@ -1,13 +1,12 @@
 import styles from '../styles/ProjectPopup.module.css'
 import { useEffect, useState, useRef } from 'react';
 
-export default function EditPopup({ setShowEditPopup, setNotification, editProject }) {
+export default function EditPopup({ setShowEditPopup, setNotification, editProject,setFetchData,fetchData}) {
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [contributors, setContributors] = useState([]);
     const [users, setUsers] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState([]);
     const [chekedBoxes, setChekedBoxes] = useState([]);
     const [headers, setHeaders] = useState({});
 
@@ -22,7 +21,7 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
             'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
         });
 
-        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+        fetch('http://192.168.0.26:5000/users', { headers: headers })
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
@@ -60,11 +59,9 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
 
     function handleCheck(event) {
         if (!event.currentTarget.classList.contains('checked')) {
-            console.log(chekedBoxes)
             setChekedBoxes(chekedBoxes.filter(box => box !== Number(event.currentTarget.dataset.id)));
         }
         else {
-            console.log(chekedBoxes)
             setChekedBoxes([...chekedBoxes, Number(event.currentTarget.dataset.id)]);
         }
     }
@@ -91,11 +88,9 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
 
 
 
-        console.log(data);
-
 
         //post request
-        let response = await fetch('https://james-bug-api.herokuapp.com/edit-project', {
+        let response = await fetch('http://192.168.0.26:5000/edit-project', {
             method: 'PUT',
             headers: headers,
             body: JSON.stringify(data)
@@ -103,6 +98,7 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
 
         if (response.ok) {
             setNotification({ show: true, name: name, message: 'has been edited' });
+            setFetchData(!fetchData);
             setShowEditPopup(false);
         }
         else {
@@ -117,7 +113,7 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
             <form className='d-flex flex-column' onSubmit={handleSumit}>
                 <h1>Edit a Project</h1>
                 <label>
-                    <input defaultValue={editProject.project.name} contentEditable="false" className='form-control' type="text" placeholder='Project' required onChange={handleNameChange} />
+                    <input defaultValue={editProject && editProject.project.name} contentEditable="false" className='form-control' type="text" placeholder='Project' required onChange={handleNameChange} />
                 </label>
 
 

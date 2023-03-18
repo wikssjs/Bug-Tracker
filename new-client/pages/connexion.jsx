@@ -3,12 +3,14 @@ import Link from 'next/link';
 import styles from '../styles/authentification.module.css';
 
 export default function Connexion() {
+    //* State Variables 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [headers, setHeaders] = useState({});
 
 
+    //* Set Headers For the Api
     useEffect(() => {
         const token = localStorage.getItem('token');
         setHeaders({
@@ -18,6 +20,10 @@ export default function Connexion() {
         });
     }, [])
 
+    /**
+     * *Handle the submit of the form to log the user
+     * @param {The element that triggered the event} event 
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
         const user = {
@@ -28,7 +34,7 @@ export default function Connexion() {
         try {
 
 
-            let response = await fetch(`https://james-bug-api.herokuapp.com/user/login`, {
+            let response = await fetch(`http://192.168.0.26:5000/user/login`, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(user),
@@ -51,6 +57,9 @@ export default function Connexion() {
 
     }
 
+    /**
+     * *Log the demo user
+     */
     const logDemoUser = async () => {
         const user = {
             email: "james@gmail.com",
@@ -60,7 +69,7 @@ export default function Connexion() {
         try {
 
 
-            let response = await fetch(`https://james-bug-api.herokuapp.com/user/login`, {
+            let response = await fetch(`http://192.168.0.26:5000/user/login`, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(user),

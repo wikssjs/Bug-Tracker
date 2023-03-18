@@ -1,14 +1,16 @@
 .projects{
   max-height: fit-content;
+  width: 90%;
 }
 
 .projects h1{
   font-size: 2em;
 }
 
+.projects table{
+}
 .projects table tr{
   height: 60px;
-  margin-top: 20px
 }
 
 .projects .name{
@@ -18,7 +20,7 @@
   font-weight: bold;
 }
  .card{
-  width: 340px;
+  width: 240px;
   align-items: center;
   appearance: none;
   /* background-color: #FCFCFD; */
@@ -58,7 +60,7 @@
   display: inline-flex;
   font-family: "JetBrains Mono", monospace;
   height: 48px;
-  width: 200px;
+  /* width: 200px; */
   margin: 20px;
   justify-content: center;
   line-height: 1;
@@ -90,7 +92,6 @@
   display: inline-flex;
   font-family: "JetBrains Mono", monospace;
   height: 38px;
-  width: 80px;
   margin: 20px;
   justify-content: center;
   line-height: 1;
@@ -142,4 +143,11 @@
   color: #fff;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
   transition: 1s ease-in-out;
+}
+
+
+@media (max-width: 450px) {
+.desc{
+  display: none;
+}
 }

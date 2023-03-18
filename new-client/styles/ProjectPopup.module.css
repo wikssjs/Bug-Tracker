@@ -2,11 +2,12 @@
     position: absolute;
     width: 400px;
     height: 500px;
-    right: 40%;
     padding: 20px;
-    top: 5%;
+    left: 5%;
+    top: 20%;
     background-color: white;
     z-index: 2;
+    margin: auto;
 }
 
 .popup h1{

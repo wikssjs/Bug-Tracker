@@ -3,14 +3,11 @@ import Header from "./Header";
 
 export default function Layout({ children, setPage,user }) {
   return <>
-    <div className={`${styles.layout} container-fluid`}>
+    <div className={`${styles.layout}`}>
 
          <Header user={user}/>
         {children}
     </div>
-
-
-
 
   </>
 }

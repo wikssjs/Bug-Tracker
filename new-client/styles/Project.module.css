@@ -128,3 +128,12 @@
     cursor: pointer;
     background-color: #D6D6E7;
 }
+
+@media screen and (max-width: 450px) {
+    .popup{
+        left: 10%;
+        top: 5%;
+        width: 80%;
+        margin: auto;
+    }
+}

@@ -5,13 +5,14 @@ import styles from '../../styles/Project.module.css';
 import TicketPopup from '../../component/TicketPopup';
 
 
-export default function Project() {
+export default function Project({user}) {
   const router = useRouter();
   const { id } = router.query;
 
   //fect api
   const [project, setProject] = useState([]);
   const [team, setTeam] = useState([]);
+  const[name, setName] = useState('');
   const [showUserPopPup, setShowUserPopPup] = useState(false);
   const [showTicketPopPup, setShowTicketPopPup] = useState(false);
   const [contributors, setContributors] = useState([]);
@@ -33,16 +34,17 @@ export default function Project() {
         'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
     });
 
-    fetch(`https://james-bug-api.herokuapp.com/project/${id}`, { headers: headers })
+    fetch(`http://192.168.0.26:5000/project/${id}`, { headers: headers })
       .then(res => res.json())
       .then((data) => {
       
+        setName(data.project.name);
         setProject(data.project);
         setTeam(data.team);
       }
       )
 
-      fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+      fetch('http://192.168.0.26:5000/users', { headers: headers })
         .then(res => res.json())
         .then(data => setContributors(data.users))
   }, [fetchData])
@@ -127,7 +129,7 @@ export default function Project() {
       user_id: event.currentTarget.dataset.id
     }
 
-    let response = await fetch('https://james-bug-api.herokuapp.com/project/delete-member', {
+    let response = await fetch('http://192.168.0.26:5000/project/delete-member', {
       method: 'DELETE',
       headers: headers,
       body: JSON.stringify(data)
@@ -146,9 +148,8 @@ export default function Project() {
       users: chekedBoxes
     }
 
-    console.log(data)
 
-    let response = await fetch('https://james-bug-api.herokuapp.com/project/add-members', {
+    let response = await fetch('http://192.168.0.26:5000/project/add-members', {
       method: 'POST',
       headers: headers,
           body: JSON.stringify(data)
@@ -169,10 +170,10 @@ export default function Project() {
   return (
     <>
       <main className='col position-relative'>
-        <h1>Project {id}</h1>
+        <h1>Project : {name}</h1>
         {/* <h2>{team && team[0].name}</h2> */}
 
-        <div className={`${styles.editProject} row gap-5 mx-5`}>
+        <div className={`${styles.editProject} row gap-5 mx-md-5 mx-1 mb-3`}>
           <div className='col shadow-lg'>
             <div className='row'>
 
@@ -284,7 +285,7 @@ export default function Project() {
           </div>
         }
         {
-          showTicketPopPup && <TicketPopup contributors={contributors} setContributors={setContributors} btnTxt="Add" setFetchData={setFetchData} setShowTicketPopPup={setShowTicketPopPup} project_id={id} popupRef={popupRef} method="POST"/>
+          showTicketPopPup && <TicketPopup contributors={contributors} setContributors={setContributors} btnTxt="Add" setFetchData={setFetchData} setShowTicketPopPup={setShowTicketPopPup} project_id={id} popupRef={popupRef} method="POST" user={user}/>
         }
 
       </main>
