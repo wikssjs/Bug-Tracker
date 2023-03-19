@@ -107,7 +107,7 @@ export default function Admin() {
         <div className="col-md-6">
           <div className="card shadow-lg">
             <div className="card-header">
-              <h3 className="card-title">Projects</h3>
+              <h3 className="card-title">User Information</h3>
             </div>
             <div className="card-body">
               <form action="" ref={formRef} onSubmit={handleSubmit}>

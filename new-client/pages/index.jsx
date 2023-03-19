@@ -60,6 +60,7 @@ export default function Main({ user }) {
   function goToPreviousPage() {
     setCurrentPage((prevPage) => prevPage - 1);
   }
+  
 
   //* Fetch projects
   useEffect(() => {
@@ -114,6 +115,7 @@ export default function Main({ user }) {
   }
 
   return (
+
     <main className="col-sm-10 main-content h-100 d-flex flex-column align-items-center m-auto">
       {
         //*Popup  to add a project

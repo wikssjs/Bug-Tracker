@@ -6,7 +6,9 @@ import styles from "../styles/TicketPopup.module.css";
 export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchData, fetchData, popupRef, ticket, contributors, setContributors, btnTxt, method, assignees, ticket_id,user }) {
     // const [contributors, setContributors] = useState([]);
     const [title, setTitle] = useState(ticket && ticket.title);
+    const [errorTitle, setErrorTitle] = useState(false);
     const [description, setDescription] = useState(ticket && ticket.description);
+    const [errorDescription, setErrorDescription] = useState(false);
     const [status, setStatus] = useState(ticket ? ticket.status : "Open");
     const [priority, setPriority] = useState(ticket ? ticket.priority : "Low");
     const [chekedBoxes, setChekedBoxes] = useState([]);
@@ -61,7 +63,14 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
     async function handleSumit(event) {
         event.preventDefault();
 
-
+        if (!title) {
+            setErrorTitle("Title is required");
+          }
+        
+          if (!description) {
+            setErrorDescription("Description is required");
+            return;
+          }
         const ticket = {
             id: ticket_id,
             title: title,
@@ -84,15 +93,18 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
             setFetchData(!fetchData);
         }
 
-
     }
 
     function handleTitleChange(event) {
-        setTitle(event.target.value);
+        const title = event.target.value;
+        setTitle(title);
+        setErrorTitle(title ? "" : "Title is required");
     }
 
     function handleDescriptionChange(event) {
-        setDescription(event.target.value);
+        const description = event.target.value;
+        setDescription(description);
+        setErrorDescription(description ? "" : "Description is required");
     }
 
     function handleStatusChange(event) {
@@ -116,15 +128,21 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
                     <button className={styles.popup_close} onClick={closePopup}>X</button>
                 </div>
                 <div className={`${styles.popup_content}  p-1`}>
-                    <form className="popup-form  d-flex flex-column" onSubmit={handleSumit}>
+                    <form noValidate className="popup-form  d-flex flex-column" onSubmit={handleSumit}>
 
                         <div className={`${styles.form_inner}`}>
 
                             <label htmlFor="">
                                 <input defaultValue={ticket && ticket.title} className='form-control' type="text" placeholder='Title' required onChange={handleTitleChange} />
+                                {
+                                    errorTitle && <p className="text-danger">Title is required</p>
+                                }
                             </label>
                             <label htmlFor="">
                                 <textarea defaultValue={ticket && ticket.description} name="" id="" cols="30" rows="10" placeholder='Description' required onChange={handleDescriptionChange}></textarea>
+                                {
+                                    errorDescription && <p className="text-danger">Description is required</p>
+                                }
                             </label>
 
 
@@ -134,7 +152,6 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
                                     <option value="In Progress">In Progress</option>
                                     <option value="Closed">Closed</option>
                                 </select>
-                                {/* <i className={`bi bi-caret-down ${styles.arrow}`}></i> */}
 
                             </label>
 
@@ -145,8 +162,7 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
                                     <option value="High">High</option>
                                 </select>
 
-                                {/* <i className={`bi bi-caret-down ${styles.arrow1}`}></i>
-                                <a href="">james</a> */}
+
                             </label>
 
                             <label htmlFor="" className={styles.users}>

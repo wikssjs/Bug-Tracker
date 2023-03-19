@@ -4,7 +4,13 @@ import { useEffect, useState, useRef } from 'react';
 export default function ProjectPopup({ setShowPopup, setNotification, setAddProject }) {
 
     const [name, setName] = useState('');
+    const [errorName , setErrorName] = useState(false);
+
+
+
     const [description, setDescription] = useState('');
+    const [errorDescription , setErrorDescription] = useState(false);
+
     const [contributors, setContributors] = useState([]);
     const [users, setUsers] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -60,11 +66,15 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
     }
 
     function handleNameChange(event) {
-        setName(event.target.value);
+        const name = event.target.value;
+        setName(name);
+        setErrorName(name ? "" : "Project Name is required");
     }
 
     function handleDescriptionChange(event) {
-        setDescription(event.target.value);
+        const description = event.target.value;
+        setDescription(description);
+        setErrorDescription(description ? "" : "Description is required");
     }
 
     async function handleSumit(event) {
@@ -72,6 +82,15 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
 
             event.preventDefault();
         }
+
+        if (!name) {
+            setErrorName("Project Name is required");
+          }
+        
+          if (!description) {
+            setErrorDescription("Description is required");
+            return;
+          }
 
         let data = {
             name: name,
@@ -102,15 +121,21 @@ export default function ProjectPopup({ setShowPopup, setNotification, setAddProj
 
         <div ref={popupRef} className={`${styles.popup} popup shadow-lg row rounded-3`}>
             <button onClick={closePopup} className='btn'><i class="bi bi-x-circle-fill abosolute"></i></button>
-            <form className='d-flex flex-column' onSubmit={handleSumit}>
+            <form noValidate className='d-flex flex-column' onSubmit={handleSumit}>
                 <h1>Add a new Project</h1>
                 <label htmlFor="">
                     <input className='form-control' type="text" placeholder='Project' required onChange={handleNameChange} />
+                    {
+                        errorName && <span className='text-danger'>Project Name is required</span>
+                    }
                 </label>
 
 
                 <label htmlFor="">
                     <textarea name="" id="" cols="30" rows="10" placeholder='Description' required onChange={handleDescriptionChange}></textarea>
+                    {
+                        errorDescription && <span className='text-danger'>Description is required</span>
+                    }
                 </label>
 
                 <div className={styles.users}>
