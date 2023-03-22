@@ -1,4 +1,4 @@
-#Bug Tracker
+# Bug Tracker
 Ce projet est un bug tracker en développement qui permet de suivre les bugs et les tâches d'un projet en utilisant les technologies ReactJS, NodeJS, ExpressJS et SQLITE.
 
 Installation
