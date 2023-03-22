@@ -5,8 +5,11 @@ Ce projet est un bug tracker en développement qui permet de suivre les bugs et 
 ## Nouveau client
 Ouvrez un terminal à la racine du projet
 Accédez au dossier nouveau client avec la commande cd new-client
-Installez les dépendances avec npm install
-## Serveur
+Installez les dépendances avec 
+
+```bash
+npm install
+```## Serveur
 Ouvrez un terminal à la racine du projet
 Accédez au dossier serveur avec la commande cd server
 Installez les dépendances avec npm install
