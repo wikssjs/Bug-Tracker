@@ -9,7 +9,8 @@ Installez les dépendances avec
 
 ```bash
 npm install
-```## Serveur
+```
+## Serveur
 Ouvrez un terminal à la racine du projet
 Accédez au dossier serveur avec la commande cd server
 Installez les dépendances avec npm install
