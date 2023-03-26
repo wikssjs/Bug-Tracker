@@ -10,7 +10,7 @@ export default function Activity({ activities }) {
           <tr>
             <th scope="col">Date</th>
             <th scope="col">User</th>
-            <th scope="col">Action</th>
+            <th className="text-left" scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@ export default function Activity({ activities }) {
               <tr key={activity.id}>
                 <td>{activity.created_at}</td>
                 <td>{activity.username}</td>
-                <td>{activity.action}</td>
+                <td className="text-left">{activity.action}</td>
               </tr>
             );
           })}

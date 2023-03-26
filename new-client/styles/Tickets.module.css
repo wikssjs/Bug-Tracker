@@ -14,7 +14,7 @@
     cursor: pointer;
 }
 
-.tickets tr:hover{
+.tickets tbody tr:hover{
     background-color: #8ECAE6;
 }
 

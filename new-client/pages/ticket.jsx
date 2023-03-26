@@ -75,7 +75,7 @@ export default function Ticket() {
           </h3>
           <button
             onClick={handlePopup}
-            className="col-1 btn btn-primary btn-sm h-25"
+            className="col-1 btn btn-primary btn-sm h-25 d-flex gap-2"
           >
             {" "}
             <span className="d-none d-md-flex">Edit</span>{" "}

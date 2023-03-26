@@ -95,10 +95,10 @@ export default function Connexion() {
     return (
         <main className="container col">
             <div className="row d-flex h-100">
-                <div className="col-md-6 mx-auto my-auto">
+                <div className="col-md-6 mx-auto my-auto d-flex justify-content-center">
                     <div className={`${styles.card} card shadow-lg`}>
                         <div className="card-header">
-                            <h3 className='text-center'>login</h3>
+                            <h3 className='text-center'>Login</h3>
                         </div>
                         <div className="card-body">
                             <form onSubmit={handleSubmit} className={styles.form_auth}>

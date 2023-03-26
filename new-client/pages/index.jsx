@@ -10,11 +10,15 @@ import Notification from "../component/Notification";
 
 export default function Main({ user }) {
   //* State Variables
-  const [projects, setProjects] = useState({ projects: [], contributors: [],activities: [] });
+  const [projects, setProjects] = useState({
+    projects: [],
+    contributors: [],
+    activities: [],
+  });
   const [currentUser, setCurrentUser] = useState({});
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
-  const[fetchData, setFetchData] = useState(false);
+  const [fetchData, setFetchData] = useState(false);
   const [addProjet, setAddProject] = useState({
     name: "",
     description: "",
@@ -60,7 +64,6 @@ export default function Main({ user }) {
   function goToPreviousPage() {
     setCurrentPage((prevPage) => prevPage - 1);
   }
-  
 
   //* Fetch projects
   useEffect(() => {
@@ -114,8 +117,10 @@ export default function Main({ user }) {
     setShowEditPopup(true);
   }
 
+  if(!user) {
+    return <div>loading...</div>
+  }
   return (
-
     <main className="col-sm-10 main-content h-100 d-flex flex-column align-items-center m-auto">
       {
         //*Popup  to add a project
@@ -131,7 +136,7 @@ export default function Main({ user }) {
           />
         )
       }
-      
+
       <div className="row w-100">
         <div className="col-lg-4 text-center mt-3">
           <div className={`${styles.card} card bg-success text-white w-md-50`}>
@@ -217,7 +222,6 @@ export default function Main({ user }) {
                       data-description={project.description}
                       className={`${styles.editButton} btn btn-primary bg-primary d-flex gap-2`}
                     >
-                      {" "}
                       <span className="d-none d-md-flex">Edit</span>{" "}
                       <i className="bi bi-pencil-square"></i>
                     </button>
@@ -227,37 +231,37 @@ export default function Main({ user }) {
             </tbody>
           </table>
         </div>
-          <div className={styles.pagination}>
-            <button
-              className={styles.pagination_button}
-              onClick={goToPreviousPage}
-              disabled={currentPage === 1}
-            >
-              prev
-            </button>
-            {pages.map((page) => {
-              return (
-                <button
-                  key={page + 1}
-                  className={`${styles.pagination_button} ${
-                    page + 1 === currentPage ? `${styles.active}` : ""
-                  }`}
-                  onClick={() => setCurrentPage(page + 1)}
-                >
-                  {page + 1}
-                </button>
-              );
-            })}
-            <button
-              className={styles.pagination_button}
-              onClick={goToNextPage}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </button>
-          </div>
+        <div className={styles.pagination}>
+          <button
+            className={styles.pagination_button}
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+          >
+            prev
+          </button>
+          {pages.map((page) => {
+            return (
+              <button
+                key={page + 1}
+                className={`${styles.pagination_button} ${
+                  page + 1 === currentPage ? `${styles.active}` : ""
+                }`}
+                onClick={() => setCurrentPage(page + 1)}
+              >
+                {page + 1}
+              </button>
+            );
+          })}
+          <button
+            className={styles.pagination_button}
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
-      <Activity activities={projects.activities}/>
+      <Activity activities={projects.activities} />
 
       {showEditPopup && (
         <EditPopup

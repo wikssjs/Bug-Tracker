@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import styles from "../styles/authentification.module.css";
 
 export default function Register() {
@@ -17,6 +18,7 @@ export default function Register() {
     return "";
   };
 
+  //* Email validation function and state variables
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
   const validateEmail = (email) => {
@@ -29,6 +31,8 @@ export default function Register() {
     return "";
   };
 
+
+  //* Username validation function and state variables
   const [username, setUsername] = useState("");
   const [errorUsername, setErrorUsername] = useState("");
   const validateUsername = (username) => {
@@ -43,6 +47,7 @@ export default function Register() {
     return "";
   };
 
+  //* Password validation function and state variables
   const [password, setPassword] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const validatePassword = (password) => {
@@ -54,8 +59,8 @@ export default function Register() {
     return "";
   };
 
+  //*headers for the server request
   const [headers, setHeaders] = useState({});
-  const [error, setError] = useState("");
 
   //* Handle the submit of the form to register the user
   const handleSubmit = async (event) => {
@@ -96,11 +101,14 @@ export default function Register() {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
 
-    let response = await fetch(`https://james-bug-api.herokuapp.com/user/register`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(user),
-    });
+    let response = await fetch(
+      `https://james-bug-api.herokuapp.com/user/register`,
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(user),
+      }
+    );
 
     if (response.ok) {
       window.location.href = "/connexion";
@@ -110,15 +118,19 @@ export default function Register() {
   };
 
   return (
-    <main className="container col">
+    <main className="container">
       <div className="row d-flex h-100">
-        <div className="col-md-6 mx-auto my-auto">
+        <div className="col-md-6 mx-auto my-auto align-items-center d-flex justify-content-center">
           <div className={`${styles.card} card shadow-lg`}>
             <div className="card-header">
               <h3 className="text-center">SignUp</h3>
             </div>
             <div className="card-body">
-              <form onSubmit={handleSubmit} className={styles.form_auth} noValidate>
+              <form
+                onSubmit={handleSubmit}
+                className={styles.form_auth}
+                noValidate
+              >
                 <div className="d-flex gap-2">
                   <div className={`${styles.form_group} form-group`}>
                     <label htmlFor="firtname">FirstName</label>
@@ -173,10 +185,10 @@ export default function Register() {
                     className="form-control"
                     onChange={(event) => setUsername(event.target.value)}
                   />
-                  {
-                    errorUsername && <span className="text-danger">{errorUsername}</span>
-                  }
-               </div>
+                  {errorUsername && (
+                    <span className="text-danger">{errorUsername}</span>
+                  )}
+                </div>
                 <div className={`${styles.form_group} form-group`}>
                   <label htmlFor="password">Password</label>
                   <input
@@ -187,9 +199,9 @@ export default function Register() {
                     className="form-control"
                     onChange={(event) => setPassword(event.target.value)}
                   />
-                  {
-                    errorPassword &&  <span className="text-danger">{errorPassword}</span>
-                  }
+                  {errorPassword && (
+                    <span className="text-danger">{errorPassword}</span>
+                  )}
                 </div>
                 <div
                   className={`${styles.form_group} form-group d-flex justify-content-center`}
@@ -197,6 +209,15 @@ export default function Register() {
                   <button type="submit" className="btn btn-primary">
                     Register
                   </button>
+                </div>
+                <div>
+                  <label htmlFor="username">
+                    {" "}
+                    <Link href="/connexion">
+                      {" "}
+                      Already have an account? Login
+                    </Link>
+                  </label>
                 </div>
               </form>
             </div>
