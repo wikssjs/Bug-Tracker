@@ -122,3 +122,13 @@
 .option_color{
     background-color: #3298FF;
 }
+
+
+@media screen and (max-width: 600px) {
+    .popup{
+        width: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 0;
+    }
+}

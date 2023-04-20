@@ -5,7 +5,7 @@ export default function Activity({ activities }) {
       <h1 className="text-left">Activities</h1>
       <div className={styles.table_wrapper}>
 
-      <table className={`${styles.table} table table-striped `}>
+      <table className={`${styles.table} table table-striped`}>
         <thead>
           <tr>
             <th scope="col">Date</th>
