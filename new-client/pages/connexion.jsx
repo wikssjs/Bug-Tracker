@@ -76,6 +76,7 @@ export default function Connexion() {
       );
 
       if (response.ok) {
+        showLoader();
         const { token } = await response.json();
         localStorage.setItem("token", token);
 
