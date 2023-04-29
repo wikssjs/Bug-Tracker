@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from '../styles/AcountMenu.module.css';
 import Router from 'next/router';
 
-export default function AccountMenu() {
+export default function AccountMenu({setCurrentUser,user}) {
   // State for the popup visibility
   const [popup, setPopup] = useState(true);
   const [headers, setHeaders] = useState({});

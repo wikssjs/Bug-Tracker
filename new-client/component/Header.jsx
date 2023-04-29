@@ -9,14 +9,14 @@ import AccountMenu from './AccountMenu';
 
 
 
-export default function Header({ user }) {
+export default function Header() {
 
-  const [headers, setHeaders] = useState({});
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
-    setCurrentUser(user);
-  }, [user])
+    const token = localStorage.getItem("token");
+    setCurrentUser(jwt.decode(token));
+  }, [currentUser])
 
 
 
@@ -81,15 +81,7 @@ export default function Header({ user }) {
           }
           {currentUser ?
             <li>
-              {/* <form
-                onSubmit={handleLogout}>
-                <button className={`${styles.logOut} btn btn-danger`}
-                  type='submit'><i class="bi bi-box-arrow-right"></i>
-                  LogOut
-                </button>
-              </form> */}
-
-              <AccountMenu set/>
+              <AccountMenu setCurrentUser={setCurrentUser}/>
             </li>
             : ""
           }

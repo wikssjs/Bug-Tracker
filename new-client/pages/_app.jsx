@@ -17,8 +17,7 @@ export default function App({ Component, pageProps }) {
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setCurrentUser(jwt.decode(token));
+   
   }, []);
 
   return (
@@ -33,7 +32,7 @@ export default function App({ Component, pageProps }) {
       <Scripts />
       <LoaderProvider>
         <Layout user={currentUser}>
-          <Component {...pageProps} user={currentUser} />
+          <Component {...pageProps} user={currentUser}/>
         </Layout>
       </LoaderProvider>
     </>
