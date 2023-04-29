@@ -4,6 +4,7 @@ import Image from 'next/image';
 import bug from '../public/bug.png'
 import jwt from 'jsonwebtoken';
 import { useEffect, useState } from 'react';
+import AccountMenu from './AccountMenu';
 
 
 
@@ -20,30 +21,12 @@ export default function Header({ user }) {
 
 
 
-  const handleLogout = async (event) => {
-
-    event.preventDefault();
-    try {
-      let response = await fetch('https://james-bug-api.herokuapp.com/user/logout',
-        {
-          method: 'POST',
-          headers: headers
-        });
-      if (response.ok) {
-        localStorage.removeItem('token');
-        window.location.href = "/connexion";
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-  };
 
   return (
-    <header>
-      <nav className={`${styles.navbar} navbar navbar-expand-lg navbar-light bg-light`}>
+    <header className=''>
+      <nav className={`${styles.navbar} navbar navbar-expand-lg`}>
         <Link className={` ${styles.navbar_brand} navbar-brand`} href="/">
-          <Image className={styles.img} src={bug} width="60" height="60" alt="Drapeau d'Haïti" />
+          <Image className={styles.img} src={bug} width="60" height="60" alt="Logo du site web" />
           BugTracker
         </Link>
         <button
@@ -58,7 +41,7 @@ export default function Header({ user }) {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className={`${styles.navbar_nav} navbar-nav ml-auto`}>
+          <ul className={`${styles.navbar_nav} navbar-nav ml-auto mr-5 align-items-center`}>
             <li className="nav-item active">
               {
                 currentUser ?
@@ -98,13 +81,15 @@ export default function Header({ user }) {
           }
           {currentUser ?
             <li>
-              <form
+              {/* <form
                 onSubmit={handleLogout}>
                 <button className={`${styles.logOut} btn btn-danger`}
                   type='submit'><i class="bi bi-box-arrow-right"></i>
                   LogOut
                 </button>
-              </form>
+              </form> */}
+
+              <AccountMenu set/>
             </li>
             : ""
           }

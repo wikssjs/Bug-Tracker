@@ -1,0 +1,47 @@
+.logo{
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.logo:hover{
+    color: #007bff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+
+}
+
+.hide{
+    position: absolute;
+    background-color: white;
+    top: 100%;
+    width: 140px;
+    right: 0%;
+    z-index:3;
+    height: 100px;
+    transition:0.5s ease-in;
+}
+
+.show{
+    position: absolute;
+    top: -140%;
+    width: 140px;
+    right: 0%;
+    z-index: 3;
+    height: 200px;
+    transition: 0.5s ease;
+}
+.liste:nth-child(1):hover{
+    color: #007bff;
+}
+.liste li {
+    cursor: pointer;
+}
+
+.liste i{
+    font-size: 1.3em;
+}
+
+@media screen and (max-width: 768px) {
+   .hide{
+    right: 40%;
+   }
+}

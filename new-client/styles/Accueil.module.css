@@ -192,4 +192,11 @@
   .desc {
     display: none;
   }
+  .projects {
+    width: 100%;
+  }
+
+  .projects table {
+    width: 100%;
+  }
 }
