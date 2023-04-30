@@ -102,7 +102,7 @@ export default function Register() {
     });
 
     let response = await fetch(
-      `http://192.168.0.53:5000/user/register`,
+      `https://james-bug-api.herokuapp.com/user/register`,
       {
         method: "POST",
         headers: headers,

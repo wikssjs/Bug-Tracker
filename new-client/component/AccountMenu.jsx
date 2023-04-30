@@ -26,7 +26,7 @@ export default function AccountMenu() {
     event.preventDefault();
 
     try {
-      let response = await fetch('http://192.168.0.53:5000/user/logout', {
+      let response = await fetch('https://james-bug-api.herokuapp.com/user/logout', {
         method: 'POST',
         headers: headers,
       });

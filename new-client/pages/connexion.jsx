@@ -40,7 +40,7 @@ export default function Connexion() {
 
     try {
       let response = await fetch(
-        `http://192.168.0.53:5000/user/login`,
+        `https://james-bug-api.herokuapp.com/user/login`,
         {
           method: "POST",
           headers: headers,
@@ -73,7 +73,7 @@ export default function Connexion() {
 
     try {
       let response = await fetch(
-        `http://192.168.0.53:5000/user/login`,
+        `https://james-bug-api.herokuapp.com/user/login`,
         {
           method: "POST",
           headers: headers,

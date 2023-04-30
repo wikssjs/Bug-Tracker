@@ -25,7 +25,7 @@ export default function Tickets() {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
 
-    fetch("http://192.168.0.53:5000/tickets", { headers: headers })
+    fetch("https://james-bug-api.herokuapp.com/tickets", { headers: headers })
       .then((res) => res.json())
       .then((data) => setTickets(data.tickets));
   }, []);

@@ -24,7 +24,7 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
             'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
         });
 
-        fetch('http://192.168.0.53:5000/users', { headers: headers })
+        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
@@ -82,7 +82,7 @@ export default function TicketPopup({ setShowTicketPopPup, project_id, setFetchD
         }
 
 
-        let response = await fetch(`http://192.168.0.53:5000/${btnTxt}-ticket`, {
+        let response = await fetch(`https://james-bug-api.herokuapp.com/${btnTxt}-ticket`, {
             method: `${method}`,
             headers: headers,
             body: JSON.stringify(ticket)

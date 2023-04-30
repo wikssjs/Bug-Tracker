@@ -85,7 +85,7 @@ export default function Main() {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     };
 
-    fetch("http://192.168.0.53:5000/", { headers: headers })
+    fetch("https://james-bug-api.herokuapp.com/", { headers: headers })
       .then((res) => res.json())
       .then((data) => setProjects(data));
   }, [fetchData]);

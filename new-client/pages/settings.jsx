@@ -128,7 +128,7 @@ export default function Settings() {
 
 
 
-        const response = await fetch("http://192.168.0.53:5000/edit-user-account", {
+        const response = await fetch("https://james-bug-api.herokuapp.com/edit-user-account", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(user),
@@ -260,7 +260,7 @@ export default function Settings() {
         };
 
 
-        const response = await fetch("http://192.168.0.53:5000/user/change-password", {
+        const response = await fetch("https://james-bug-api.herokuapp.com/user/change-password", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(passwords),
