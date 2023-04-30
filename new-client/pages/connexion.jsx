@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styles from "../styles/authentification.module.css";
 import { useLoader } from "../component/LoaderContext";
-import { useCurrentUser } from "../component/CurrentUserContext";
-import { Jwt } from "jsonwebtoken";
 
 export default function Connexion() {
   //* State Variables
@@ -12,11 +9,8 @@ export default function Connexion() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [headers, setHeaders] = useState({});
-  const {setCurrentUser,currentUser} = useCurrentUser();
-  const { showLoader, hideLoader } = useLoader();
 
-  //* Router
-  const router = useRouter();
+  const { showLoader, hideLoader } = useLoader();
 
   //* Set Headers For the Api
   useEffect(() => {
@@ -25,7 +19,7 @@ export default function Connexion() {
       "Content-Type": "application/json",
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
-  }, [currentUser,router]);
+  }, []);
 
   /**
    * *Handle the submit of the form to log the user
@@ -85,6 +79,8 @@ export default function Connexion() {
         showLoader();
         const { token } = await response.json();
         localStorage.setItem("token", token);
+
+        window.location.href = "/";
       } else {
         setError("Email or password incorrect");
       }
@@ -92,7 +88,6 @@ export default function Connexion() {
       console.error(error);
     }
   };
-
 
   return (
       <div className="row d-flex container m-auto mt-5">

@@ -47,10 +47,9 @@ export default function Project({user}) {
       fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
         .then(res => res.json())
         .then(data => setContributors(data.users))
-  }, [fetchData])
+  }, [fetchData,headers, id,router])
 
   let tour = 0;
-
   useEffect(() => {
 
     if (tour === 0) {

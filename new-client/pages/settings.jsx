@@ -1,26 +1,20 @@
 import styles from '../styles/Settings.module.css'
 import { useEffect, useMemo, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import jwt from 'jsonwebtoken';
 import pkg from 'bcryptjs';
-import { useRouter } from 'next/router';
-import { useCurrentUser } from '../component/CurrentUserContext';
 
 
 export default function Settings() {
-    const {currentUser,setCurrentUser} = useCurrentUser();
-    const router = useRouter();
+    const [currentUser, setCurrentUser] = useState();
     const [headers, setHeaders] = useState({});
 
 
     useEffect(() => {
-        if(!currentUser){
-            router.push('/connexion');
-        }
         const token = localStorage.getItem("token");
+        setCurrentUser(jwt.decode(token));
         setHeaders({
             "Content-Type": "application/json",
             Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
@@ -58,7 +52,8 @@ export default function Settings() {
     const handleClose = () => setShowModal(false);
     const handleShow = (event) => {
         event.preventDefault();
-         if(inputValues.username === currentUser.username && inputValues.firstName === currentUser.firstName && inputValues.lastName === currentUser.lastName) {
+         if(inputValues.username === currentUser.username || inputValues.firstName === currentUser.firstName || inputValues.lastName === currentUser.lastName) {
+            alert("Vous n'avez pas modifié vos informations");
             return;
         }
         
@@ -128,7 +123,7 @@ export default function Settings() {
 
 
 
-        const response = await fetch("https://james-bug-api.herokuapp.com/edit-user-account", {
+        const response = await fetch("http://192.168.0.53:5000/edit-user-account", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(user),
@@ -171,6 +166,8 @@ export default function Settings() {
 
 
     const inputCorrect = async () => {
+
+        let correct = true;
 
         if (inputPassword.currentPassword === '') {
             setPasswordErrors((prevState) => ({
@@ -260,7 +257,7 @@ export default function Settings() {
         };
 
 
-        const response = await fetch("https://james-bug-api.herokuapp.com/user/change-password", {
+        const response = await fetch("http://192.168.0.53:5000/user/change-password", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(passwords),
@@ -274,9 +271,7 @@ export default function Settings() {
         }
     }
 
-    if (!currentUser) {
-        return null
-      }
+
 
 
     return (
@@ -298,11 +293,11 @@ export default function Settings() {
                                         <label htmlFor="firstName" className="form-label">
                                             First Name
                                             <i
-                                                className="bi bi-pencil-square ml-3"
+                                                className="material-icons ms-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleEditClick('firstName')}
                                             >
-                                                
+                                                edit
                                             </i>
                                         </label>
                                         <input onChange={(e) => handleChange(e, 'firstName')} value={inputValues.firstName} type="text" className="form-control" id="firstName" placeholder="Enter your first name" readOnly={!editableFields.firstName} />
@@ -312,11 +307,11 @@ export default function Settings() {
                                         <label htmlFor="lastName" className="form-label">
                                             Last Name
                                             <i
-                                                className="bi bi-pencil-square ml-3"
+                                                className="material-icons ms-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleEditClick('lastName')}
                                             >
-                                                
+                                                edit
                                             </i>
                                         </label>
                                         <input onChange={(e) => handleChange(e, 'lastName')} value={inputValues.lastName} type="text" className="form-control" id="lastName" placeholder="Enter your last name" readOnly={!editableFields.lastName} />
@@ -325,11 +320,11 @@ export default function Settings() {
                                         <label htmlFor="username" className="form-label">
                                             Username
                                             <i
-                                                className="bi bi-pencil-square ml-3"
+                                                className="material-icons ms-2"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleEditClick('username')}
                                             >
-                                                
+                                                edit
                                             </i>
                                         </label>
                                         <input onChange={(e) => handleChange(e, 'username')} value={inputValues.username} type="text" className="form-control" id="username" placeholder="Enter your username" readOnly={!editableFields.username} />

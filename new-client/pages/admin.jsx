@@ -1,20 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "../styles/Admin.module.css";
-import { useCurrentUser } from "../component/CurrentUserContext";
-import { useRouter } from "next/router";
 
 export default function Admin() {
-
-     const router = useRouter();
-     const {currentUser} = useCurrentUser();
-
-    useEffect(() => {
-      if(!currentUser){
-        router.push("/connexion");
-    }
-    }, [currentUser])
-
-
   //*State Variables
   const [fetchData, setFetchData] = useState(false);
   const [users, setUsers] = useState([]);
@@ -38,7 +25,7 @@ export default function Admin() {
     fetch("https://james-bug-api.herokuapp.com/users", { headers: headers })
       .then((res) => res.json())
       .then((data) => setUsers(data.users));
-  }, [fetchData]);
+  }, [fetchData,headers]);
 
   //*Handle Click on a user in the table
   function handleClick(event) {
@@ -81,10 +68,6 @@ export default function Admin() {
       setRole("");
       setFetchData(!fetchData);
     }
-  }
-
-  if (!currentUser) {
-    return null
   }
 
   return (

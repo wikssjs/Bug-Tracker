@@ -188,20 +188,15 @@
   transition: 1s ease-in-out;
 }
 
-@media (max-width: 700px) {
-  .desc {
-    display: none;
-  }
-  .projects {
-    width: 125%;
-  }
-}
-
 @media (max-width: 500px) {
   .desc {
     display: none;
   }
   .projects {
-    width: 105%;
+    width: 100%;
+  }
+
+  .projects table {
+    width: 100%;
   }
 }

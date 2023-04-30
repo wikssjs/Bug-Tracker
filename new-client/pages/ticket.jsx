@@ -4,12 +4,10 @@ import Comments from "../component/Comments";
 import jwt from "jsonwebtoken";
 import TicketPopup from "../component/TicketPopup";
 import styles from "../styles/Ticket.Id.module.css";
-import { useCurrentUser } from "../component/CurrentUserContext";
 
 export default function Ticket() {
   //* Router
   const router = useRouter();
-  const {currentUser} = useCurrentUser();
 
   //* States Variables
   const [showTicketPopPup, setShowTicketPopPup] = useState(false);
@@ -24,11 +22,11 @@ export default function Ticket() {
 
   //*fetch api data on load and when ticket_id change
   useEffect(() => {
-
-    if(!currentUser) {
-      router.push('/connexion');
-    }
     const token = localStorage.getItem("token");
+    const decoded = jwt.decode(token);
+    if (!decoded) {
+      router.push("/connexion");
+    }
     setHeaders({
       "Content-Type": "application/json",
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
@@ -61,17 +59,12 @@ export default function Ticket() {
         .then((res) => res.json())
         .then((data) => setContributors(data.users));
     }
-  }, [saveTicketId, fetchData]);
+  }, [saveTicketId, fetchData, headers,router, ticket_id]);
 
   //* Handle Popup
   const handlePopup = () => {
     setShowTicketPopPup(!showTicketPopPup);
   };
-
-
-  if(!currentUser) {
-    return null
-  }
 
   return (
     <main class={`${styles.container} container col`}>

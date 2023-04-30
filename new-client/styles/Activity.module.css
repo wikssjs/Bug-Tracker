@@ -57,31 +57,16 @@
   }
 
 
-  @media screen and (max-width: 768px) {
+  @media (max-width: 500px) {
     .activity {
       width: 100%;
-      padding: 20px;
     }
   
     .activity h1 {
       font-size: 24px;
     }
   
-    .table_wrapper {
-      overflow-x: auto;
-    }
-  
-    .table {
-      width: 100%;
-    }
-  
-    .table thead th {
-      font-size: 14px;
-      padding: 10px 15px;
-    }
-  
     .table tbody td {
-      font-size: 14px;
       padding: 10px 15px;
     }
   }
