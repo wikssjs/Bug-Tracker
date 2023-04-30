@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import styles from '../styles/AcountMenu.module.css';
-import Router from 'next/router';
 
-export default function AccountMenu({setCurrentUser,user}) {
+export default function AccountMenu({setCurrentUser}) {
   // State for the popup visibility
   const [popup, setPopup] = useState(true);
   const [headers, setHeaders] = useState({});
@@ -28,7 +27,7 @@ export default function AccountMenu({setCurrentUser,user}) {
       if (response.ok) {
         localStorage.removeItem('token');
         setPopup(!popup);
-        Router.push('/connexion');
+        setCurrentUser({});
         }
     } catch (error) {
       console.error(error);
@@ -38,7 +37,6 @@ export default function AccountMenu({setCurrentUser,user}) {
   // Navigate to the settings page
   const goToSettings = () => {
     setPopup(!popup);
-    Router.push('/settings');
   };
 
   return (
