@@ -43,7 +43,7 @@ export const editUserAccountModel = async (id,nom,prenom,username) => {
 export const editUserPasswordModel = async (id,password) => {
     let connexion = await promesseConnexion;
     let motDePasseHash = await hash(password, 10);
-    
+    console.log(password);
     let resultat = await connexion.run(
         `UPDATE users SET password = ? WHERE id = ?`,
         [motDePasseHash,id]

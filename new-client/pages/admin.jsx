@@ -1,7 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "../styles/Admin.module.css";
+import { useCurrentUser } from "../component/CurrentUserContext";
+import { useRouter } from "next/router";
 
 export default function Admin() {
+
+     const router = useRouter();
+     const {currentUser} = useCurrentUser();
+
+    useEffect(() => {
+      if(!currentUser){
+        router.push("/connexion");
+    }
+    }, [currentUser])
+
+
   //*State Variables
   const [fetchData, setFetchData] = useState(false);
   const [users, setUsers] = useState([]);
@@ -22,7 +35,7 @@ export default function Admin() {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
 
-    fetch("https://james-bug-api.herokuapp.com/users", { headers: headers })
+    fetch("http://192.168.0.53:5000/users", { headers: headers })
       .then((res) => res.json())
       .then((data) => setUsers(data.users));
   }, [fetchData]);
@@ -54,7 +67,7 @@ export default function Admin() {
       role: Role,
     };
 
-    const response = await fetch("https://james-bug-api.herokuapp.com/edit-user", {
+    const response = await fetch("http://192.168.0.53:5000/edit-user", {
       method: "PUT",
       headers: headers,
       body: JSON.stringify(user),
@@ -68,6 +81,10 @@ export default function Admin() {
       setRole("");
       setFetchData(!fetchData);
     }
+  }
+
+  if (!currentUser) {
+    return null
   }
 
   return (

@@ -3,30 +3,26 @@ import styles from '../styles/Header.module.css'
 import Image from 'next/image';
 import bug from '../public/bug.png'
 import jwt from 'jsonwebtoken';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import AccountMenu from './AccountMenu';
+import { useCurrentUser } from './CurrentUserContext';
 
 
 
 
 export default function Header() {
 
-  const [currentUser, setCurrentUser] = useState({});
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setCurrentUser(jwt.decode(token));
-  }, [currentUser])
-
-
-
-
+  
+const {currentUser} = useCurrentUser();
+useEffect(() => {
+}, [currentUser]);
 
   return (
-    <header className=''>
-      <nav className={`${styles.navbar} navbar navbar-expand-lg`}>
+    <header>
+      <nav className={`${styles.navbar} navbar navbar-expand-lg navbar-light bg-light`}>
         <Link className={` ${styles.navbar_brand} navbar-brand`} href="/">
-          <Image className={styles.img} src={bug} width="60" height="60" alt="Logo du site web" />
+          <Image className={styles.img} src={bug} width="60" height="60" alt="Drapeau d'Haïti" />
           BugTracker
         </Link>
         <button
@@ -41,10 +37,10 @@ export default function Header() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className={`${styles.navbar_nav} navbar-nav ml-auto mr-5 align-items-center`}>
+          <ul className={`${styles.navbar_nav} navbar-nav ml-auto mr-5`}>
             <li className="nav-item active">
               {
-                currentUser ?
+                currentUser && currentUser.username ?
                   <Link className={`${styles.nav_link} nav-link`} href="/">
                     Dashboard
                   </Link>
@@ -53,8 +49,8 @@ export default function Header() {
             </li>
             <li className="nav-item">
               {
-                currentUser ?
-                  <Link className={`${styles.nav_link} nav-link`} href="/tickets">
+                currentUser && currentUser.username ?
+                <Link className={`${styles.nav_link} nav-link`} href="/tickets">
                     Tickets
                   </Link>
                   : ""
@@ -62,7 +58,7 @@ export default function Header() {
               }
             </li>
             <li className="nav-item">
-              {!currentUser ? (
+              {currentUser && !currentUser.username ? (
                 <Link className={`${styles.nav_link} nav-link`} href="/connexion">
                   Connexion
                 </Link>
@@ -72,17 +68,16 @@ export default function Header() {
             </li>
 
             {
-              currentUser ?
-              <li><Link
+                currentUser && currentUser.username ?
+                <li><Link
               className={`${styles.nav_link} nav-link`}
               href="/admin">Admin</Link>
             </li>
             :""
           }
-          {currentUser ?
-            <li>
-              <AccountMenu setCurrentUser={setCurrentUser}/>
-            </li>
+          {currentUser && currentUser.username ?
+
+          <AccountMenu />
             : ""
           }
           </ul>

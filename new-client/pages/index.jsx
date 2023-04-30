@@ -7,15 +7,21 @@ import EditPopup from "../component/EditPopup";
 import ProjectPopup from "../component/ProjectPopup";
 import styles from "../styles/Accueil.module.css";
 import Notification from "../component/Notification";
+import { useCurrentUser } from "../component/CurrentUserContext";
 
-export default function Main({ user }) {
+export default function Main() {
+
+
+  const {currentUser} = useCurrentUser();
+
+
+
   //* State Variables
   const [projects, setProjects] = useState({
     projects: [],
     contributors: [],
     activities: [],
   });
-  const [currentUser, setCurrentUser] = useState({});
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [fetchData, setFetchData] = useState(false);
@@ -79,7 +85,7 @@ export default function Main({ user }) {
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     };
 
-    fetch("https://james-bug-api.herokuapp.com/", { headers: headers })
+    fetch("http://192.168.0.53:5000/", { headers: headers })
       .then((res) => res.json())
       .then((data) => setProjects(data));
   }, [fetchData]);
@@ -117,8 +123,8 @@ export default function Main({ user }) {
     setShowEditPopup(true);
   }
 
-  if(!user) {
-    return <div>loading...</div>
+  if (!currentUser) {
+    return null
   }
   return (
     <main className="col-sm-10 main-content h-100 d-flex flex-column align-items-center m-auto">

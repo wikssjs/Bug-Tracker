@@ -1,7 +1,8 @@
 import styles from "../styles/Tickets.module.css";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useCurrentUser } from "../component/CurrentUserContext";
 
 export default function Tickets() {
   //*State Variables
@@ -12,21 +13,19 @@ export default function Tickets() {
 
   //* Router
   const router = useRouter();
-
+  const {currentUser} = useCurrentUser();
 
   //* Fetching tickets
   useEffect(() => {
+    if(!currentUser) return router.push("/connexion");
+
     const token = localStorage.getItem("token");
-    const decoded = jwt.decode(token);
-    if (!decoded) {
-      router.push("/connexion");
-    }
     setHeaders({
       "Content-Type": "application/json",
       Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
     });
 
-    fetch("https://james-bug-api.herokuapp.com/tickets", { headers: headers })
+    fetch("http://192.168.0.53:5000/tickets", { headers: headers })
       .then((res) => res.json())
       .then((data) => setTickets(data.tickets));
   }, []);
@@ -59,6 +58,8 @@ export default function Tickets() {
     setCurrentPage((prevPage) => prevPage - 1);
   }
 
+
+  if(!currentUser) return (null);
   return (
     <main className={`${styles.tickets_wrapper} row mt-4 m-auto w-75`}>
       <div className="col-md-12 h-25">

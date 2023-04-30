@@ -7,7 +7,6 @@ export default function Document() {
     <Html lang="en">
       <Head >
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
       </Head>
       <body>
         <Main />

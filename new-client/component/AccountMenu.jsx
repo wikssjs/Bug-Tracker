@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import styles from '../styles/AcountMenu.module.css';
+import { useRouter } from 'next/router';
+import { useCurrentUser } from './CurrentUserContext';
 
-export default function AccountMenu({setCurrentUser}) {
+export default function AccountMenu() {
+
+    const router = useRouter();
+    const {currentUser,setCurrentUser} = useCurrentUser();
+
   // State for the popup visibility
   const [popup, setPopup] = useState(true);
   const [headers, setHeaders] = useState({});
@@ -20,7 +26,7 @@ export default function AccountMenu({setCurrentUser}) {
     event.preventDefault();
 
     try {
-      let response = await fetch('https://james-bug-api.herokuapp.com/user/logout', {
+      let response = await fetch('http://192.168.0.53:5000/user/logout', {
         method: 'POST',
         headers: headers,
       });
@@ -28,6 +34,7 @@ export default function AccountMenu({setCurrentUser}) {
         localStorage.removeItem('token');
         setPopup(!popup);
         setCurrentUser({});
+        router.push('/connexion');
         }
     } catch (error) {
       console.error(error);
@@ -36,11 +43,12 @@ export default function AccountMenu({setCurrentUser}) {
 
   // Navigate to the settings page
   const goToSettings = () => {
+    router.push('/settings');
     setPopup(!popup);
   };
 
   return (
-    <div className="mr-2">
+    <div className="mr-3">
       <div className={styles.logo} onClick={handlePopup}>
         <i className="bi bi-person-circle"></i>
       </div>
@@ -48,10 +56,14 @@ export default function AccountMenu({setCurrentUser}) {
       {!popup && (
         <div className={`shadow-lg rounded-2 ${styles.hide}`}>
           <ul
-            className={`${styles.liste} d-flex flex-column gap-3 justify-content-center`}
+            className={`${styles.liste} d-flex flex-column gap-3 justify-content-center align-items-baseline`}
           >
+            <li className="d-flex gap-2 align-items-center">
+            <i className="bi bi-patch-check-fill text-primary"></i>
+                {currentUser.username}
+            </li>
             <li className="d-flex gap-2 align-items-center" onClick={goToSettings}>
-              <i className="bi bi-gear-wide-connected"></i>
+              <i className="bi bi-gear-wide-connected text-primary" ></i>
               Settings
             </li>
 

@@ -1,28 +1,33 @@
 import styles from '../styles/Settings.module.css'
 import { useEffect, useMemo, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import jwt from 'jsonwebtoken';
 import pkg from 'bcryptjs';
+import { useRouter } from 'next/router';
+import { useCurrentUser } from '../component/CurrentUserContext';
 
 
 export default function Settings() {
-    // State variables
-    const [currentUser, setCurrentUser] = useState();
+    const {currentUser,setCurrentUser} = useCurrentUser();
+    const router = useRouter();
     const [headers, setHeaders] = useState({});
 
-    // Set current user and headers on component mount
+
     useEffect(() => {
+        if(!currentUser){
+            router.push('/connexion');
+        }
         const token = localStorage.getItem("token");
-        setCurrentUser(jwt.decode(token));
         setHeaders({
             "Content-Type": "application/json",
             Authorization: `ksklkweiowekdl908w03iladkl ${token}`,
         });
+
     }, []);
 
-    // State for input values
     const [inputValues, setInputValues] = useState({
         id: '',
         firstName: '',
@@ -31,7 +36,6 @@ export default function Settings() {
         email: '',
     });
 
-    // Update input values when currentUser changes
     useMemo(() => {
         if (currentUser) {
             setInputValues({
@@ -43,21 +47,21 @@ export default function Settings() {
             });
         }
     }, [currentUser]);
+    console.log("currentUser");
 
-    // State for showModal
+    console.log(inputValues);
+    console.log("currentUser");
+
+
     const [showModal, setShowModal] = useState(false);
 
-    // Close modal
     const handleClose = () => setShowModal(false);
-
-    // Show modal and disable edits for firstName, lastName, and username
     const handleShow = (event) => {
         event.preventDefault();
-        if (inputValues.username === currentUser.username || inputValues.firstName === currentUser.firstName || inputValues.lastName === currentUser.lastName) {
-            alert("Vous n'avez pas modifié vos informations");
+         if(inputValues.username === currentUser.username && inputValues.firstName === currentUser.firstName && inputValues.lastName === currentUser.lastName) {
             return;
         }
-
+        
         setShowModal(true);
 
         disableEdits('firstName');
@@ -65,20 +69,19 @@ export default function Settings() {
         disableEdits('username');
     }
 
-    // Confirm changes and close the modal
     const handleConfirmChanges = () => {
         handleSubmit();
+
         handleClose();
     };
 
-    // State for editable fields
     const [editableFields, setEditableFields] = useState({
         firstName: false,
         lastName: false,
         username: false,
     });
 
-    // Handle edit click for a field
+
     const handleEditClick = (field) => {
         setEditableFields((prevState) => ({
             ...prevState,
@@ -86,7 +89,6 @@ export default function Settings() {
         }));
     };
 
-    // Disable edits for a field
     const disableEdits = (field) => {
         setEditableFields((prevState) => ({
             ...prevState,
@@ -94,7 +96,7 @@ export default function Settings() {
         }));
     };
 
-    // Handle input value change
+
     const handleChange = (e, field) => {
         setInputValues((prevState) => ({
             ...prevState,
@@ -102,22 +104,59 @@ export default function Settings() {
         }));
     };
 
-    // Submit user information
+
     const handleSubmit = async () => {
-        // ... rest of the code
+
+        const user = {
+            id: inputValues.id,
+            firstName: inputValues.firstName,
+            lastName: inputValues.lastName,
+            username: inputValues.username,
+            email: inputValues.email,
+        };
+
+        if(inputValues.firstName === '') {
+            user.firstName = currentUser.firstName;
+        }
+        if(inputValues.lastName === '') {
+            user.lastName = currentUser.lastName;
+        }
+        if(inputValues.username === '') {
+            user.username = currentUser.username;
+        }
+        
+
+
+
+        const response = await fetch("http://192.168.0.53:5000/edit-user-account", {
+            method: "PUT",
+            headers: headers,
+            body: JSON.stringify(user),
+        });
+
+        if (response.ok) {
+            let data = await response.json();
+            const user = jwt.decode(data.token);
+            localStorage.setItem("token", data.token);
+            setCurrentUser(user);
+        }
     };
 
-    // State variables for password visibility
     const [currentPasswordVisible, setCurrentPasswordVisible] = useState(false);
     const [newPasswordVisible, setNewPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-    // Toggle password visibility for a field
     const togglePasswordVisibility = (field) => {
-        // ... rest of the code
+        if (field === 'currentPassword') {
+            setCurrentPasswordVisible(!currentPasswordVisible);
+        } else if (field === 'newPassword') {
+            setNewPasswordVisible(!newPasswordVisible);
+        } else if (field === 'confirmPassword') {
+            setConfirmPasswordVisible(!confirmPasswordVisible);
+        }
     };
 
-    // State variables for inputPassword and passwordErrors
+
     const [inputPassword, setInputPassword] = useState({
         currentPassword: '',
         newPassword: '',
@@ -130,10 +169,8 @@ export default function Settings() {
         confirmPassword: '',
     });
 
-    // Validate input correctness
-    const inputCorrect = async () => {
 
-        let correct = true;
+    const inputCorrect = async () => {
 
         if (inputPassword.currentPassword === '') {
             setPasswordErrors((prevState) => ({
@@ -200,8 +237,6 @@ export default function Settings() {
         return true;
     }
 
-
-    // Handle password input change
     const handlePasswordsChange = (e, field) => {
         setInputPassword((prevState) => ({
             ...prevState,
@@ -210,7 +245,7 @@ export default function Settings() {
     };
 
 
-    // Handle password submit
+
     const handlePasswordSubmit = async (event) => {
         event.preventDefault();
         if (await inputCorrect() === false) {
@@ -225,7 +260,7 @@ export default function Settings() {
         };
 
 
-        const response = await fetch("https://james-bug-api.herokuapp.com/user/change-password", {
+        const response = await fetch("http://192.168.0.53:5000/user/change-password", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(passwords),
@@ -239,9 +274,11 @@ export default function Settings() {
         }
     }
 
+    if (!currentUser) {
+        return null
+      }
 
 
-    //return the html
     return (
         <main>
             <div className={`${styles.container} container mt-5`}>
@@ -261,11 +298,11 @@ export default function Settings() {
                                         <label htmlFor="firstName" className="form-label">
                                             First Name
                                             <i
-                                                className="material-icons ms-2"
+                                                className="bi bi-pencil-square ml-3"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleEditClick('firstName')}
                                             >
-                                                edit
+                                                
                                             </i>
                                         </label>
                                         <input onChange={(e) => handleChange(e, 'firstName')} value={inputValues.firstName} type="text" className="form-control" id="firstName" placeholder="Enter your first name" readOnly={!editableFields.firstName} />
@@ -275,11 +312,11 @@ export default function Settings() {
                                         <label htmlFor="lastName" className="form-label">
                                             Last Name
                                             <i
-                                                className="material-icons ms-2"
+                                                className="bi bi-pencil-square ml-3"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleEditClick('lastName')}
                                             >
-                                                edit
+                                                
                                             </i>
                                         </label>
                                         <input onChange={(e) => handleChange(e, 'lastName')} value={inputValues.lastName} type="text" className="form-control" id="lastName" placeholder="Enter your last name" readOnly={!editableFields.lastName} />
@@ -288,11 +325,11 @@ export default function Settings() {
                                         <label htmlFor="username" className="form-label">
                                             Username
                                             <i
-                                                className="material-icons ms-2"
+                                                className="bi bi-pencil-square ml-3"
                                                 style={{ cursor: 'pointer' }}
                                                 onClick={() => handleEditClick('username')}
                                             >
-                                                edit
+                                                
                                             </i>
                                         </label>
                                         <input onChange={(e) => handleChange(e, 'username')} value={inputValues.username} type="text" className="form-control" id="username" placeholder="Enter your username" readOnly={!editableFields.username} />

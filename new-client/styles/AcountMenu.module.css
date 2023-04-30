@@ -14,9 +14,9 @@
     background-color: white;
     top: 100%;
     width: 140px;
-    right: 0%;
+    right: 1%;
     z-index:3;
-    height: 100px;
+    height: 150px;
     transition:0.5s ease-in;
 }
 
@@ -26,14 +26,18 @@
     width: 140px;
     right: 0%;
     z-index: 3;
-    height: 200px;
+    height: 150px;
     transition: 0.5s ease;
 }
-.liste:nth-child(1):hover{
+
+.liste li:hover{
     color: #007bff;
 }
 .liste li {
     cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+    font-size: large;
 }
 
 .liste i{
@@ -41,7 +45,8 @@
 }
 
 @media screen and (max-width: 768px) {
-   .hide{
-    right: 40%;
+   .hide, .show{
+    right: 35%;
    }
+   
 }

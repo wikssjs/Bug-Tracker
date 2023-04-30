@@ -21,7 +21,7 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
             'Authorization': `ksklkweiowekdl908w03iladkl ${token}`
         });
 
-        fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
+        fetch('http://192.168.0.53:5000/users', { headers: headers })
             .then(res => res.json())
             .then(data => setContributors(data.users))
 
@@ -90,7 +90,7 @@ export default function EditPopup({ setShowEditPopup, setNotification, editProje
 
 
         //post request
-        let response = await fetch('https://james-bug-api.herokuapp.com/edit-project', {
+        let response = await fetch('http://192.168.0.53:5000/edit-project', {
             method: 'PUT',
             headers: headers,
             body: JSON.stringify(data)
