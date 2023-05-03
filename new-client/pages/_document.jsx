@@ -8,6 +8,7 @@ export default function Document() {
       <Head >
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
+    <Scripts/>
       </Head>
       <body>
         <Main />
@@ -15,7 +16,6 @@ export default function Document() {
         <NextScript />
 
       </body>
-    <Scripts/>
     </Html>
   )
 }

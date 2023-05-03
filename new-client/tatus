@@ -1,0 +1,149 @@
+[33mcommit 5db0f31b44bc4409f37b07bf0f0b47b62a3e8033[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sun Apr 30 16:19:53 2023 -0400
+
+    tour error
+
+[33mcommit ec442d5dde627317d8631a77c742b4bbb23d1e64[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sun Apr 30 14:00:50 2023 -0400
+
+    james
+
+[33mcommit 4aeb2eb0b77d8c67af539b8f734bce048f1511a7[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sat Apr 29 19:53:16 2023 -0400
+
+    fixed logout error
+
+[33mcommit 67b4e34207ddd2db5e2b5b0ef992911f43262be5[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sat Apr 29 19:43:42 2023 -0400
+
+    added user settings
+
+[33mcommit 0a0734a5ec6296ab05dc7f00fee9d259e456c5d8[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Thu Apr 20 15:46:09 2023 -0400
+
+    added loader ffor demo login
+
+[33mcommit ebe14e8a7594c3f535d1a500eb928534e0ae0971[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Thu Apr 20 15:43:56 2023 -0400
+
+    added loader for client
+
+[33mcommit 81be8219a978d2f97ce8cad6d03cbe52d21ccc03[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sun Mar 26 13:36:16 2023 -0400
+
+    change the design
+
+[33mcommit 477b3b491f633bc449a42c5d4821521710e0e5af[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sat Mar 18 21:39:31 2023 -0400
+
+    form validation
+
+[33mcommit 293f65c44f34fa73cca94efddec0d2b9461c99f0[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Sat Mar 18 16:00:18 2023 -0400
+
+    add activity table
+
+[33mcommit 7135d6b4d1fa7108ddbe1422755af1cddda7019f[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Fri Mar 17 21:12:44 2023 -0400
+
+    change local domain
+
+[33mcommit eb67f3001b73df3910b29ac44f70262708a11884[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Fri Mar 17 21:06:53 2023 -0400
+
+    fix synstax error
+
+[33mcommit d89f2fb19cba23892a9daab43b0587cc0b875e15[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Fri Mar 17 20:58:37 2023 -0400
+
+    make it responsive
+
+[33mcommit 1d7c6d4461fdb5d98b8ca7ed3919783ef220ec55[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Thu Mar 16 23:34:06 2023 -0400
+
+    change the ui and added user auth
+
+[33mcommit 5f9d71d452b147d258e3fdf9ecfe668274b8f474[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 22:04:37 2023 -0400
+
+    auth added
+
+[33mcommit 22c66e86475dd05d4f6ff817177d6e755f786e8e[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 18:17:58 2023 -0400
+
+    create user manage
+
+[33mcommit 2b93b330d310e61081fdd7e1b7ff365758054e45[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 17:45:58 2023 -0400
+
+    fix header problem
+
+[33mcommit 732e7a9e6320f3e4c234fabc7911f6f334846273[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 17:39:57 2023 -0400
+
+    fix header problem
+
+[33mcommit a6cb11023885730ef1ab4cff17e7edc4363c6828[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 17:22:38 2023 -0400
+
+    config
+
+[33mcommit 8e9816d7eb072c5671892d437ffa8292f4cc4666[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 17:02:36 2023 -0400
+
+    config
+
+[33mcommit c9535fd290994b2b4a339c1b38d32f15f2d3ce33[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 16:58:21 2023 -0400
+
+    config
+
+[33mcommit 5f6bc72eb101f9715eba89952cebc5c06c26c76b[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 16:56:31 2023 -0400
+
+    config
+
+[33mcommit 333fd1c8290483434b26d4ace2dbd3d02d764845[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 16:53:35 2023 -0400
+
+    config
+
+[33mcommit cfd58a7c83c7a0d8615b889488f3e0cb5328e0b1[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 16:51:26 2023 -0400
+
+    config
+
+[33mcommit 6f53dd586b35ed45a88d75f3c1ba9660102325f0[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 16:41:14 2023 -0400
+
+    config
+
+[33mcommit 624b51c883d15f3cba59639bc57dbc11060c57a3[m
+Author: James <72478345+wikssjs@users.noreply.github.com>
+Date:   Wed Mar 15 16:35:13 2023 -0400
+
+    client init

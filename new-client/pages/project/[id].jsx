@@ -3,13 +3,16 @@ import { useEffect, useState, useRef } from 'react';
 import jwt from 'jsonwebtoken';
 import styles from '../../styles/Project.module.css';
 import TicketPopup from '../../component/TicketPopup';
+import { useCurrentUser } from '../../component/CurrentUserContext';
+
 
 
 export default function Project({user}) {
   const router = useRouter();
   const { id } = router.query;
 
-  //fect api
+  //* States Variables
+  const {currentUser } = useCurrentUser();
   const [project, setProject] = useState([]);
   const [team, setTeam] = useState([]);
   const[name, setName] = useState('');
@@ -23,6 +26,9 @@ export default function Project({user}) {
 
 
   useEffect(() => {
+    if(!currentUser) {
+      router.push('/connexion');
+    }
 
     const token = localStorage.getItem('token');
     const decoded = jwt.decode(token);
@@ -47,7 +53,7 @@ export default function Project({user}) {
       fetch('https://james-bug-api.herokuapp.com/users', { headers: headers })
         .then(res => res.json())
         .then(data => setContributors(data.users))
-  }, [fetchData,headers, id,router])
+  },[])
 
   let tour = 0;
   useEffect(() => {
@@ -160,6 +166,10 @@ export default function Project({user}) {
     router.push(`/ticket?ticket_id=${ticket_id}&project_id=${id}`);
   }
 
+
+  if(!currentUser) {
+    return null
+  }
 
 
   return (

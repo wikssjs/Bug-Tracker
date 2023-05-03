@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/authentification.module.css";
 import { useLoader } from "../component/LoaderContext";
+import { useCurrentUser } from "../component/CurrentUserContext";
+import { useRouter } from "next/router";
 
 export default function Connexion() {
   //* State Variables
@@ -11,6 +13,9 @@ export default function Connexion() {
   const [headers, setHeaders] = useState({});
 
   const { showLoader, hideLoader } = useLoader();
+
+  //* Router
+  const router = useRouter();
 
   //* Set Headers For the Api
   useEffect(() => {

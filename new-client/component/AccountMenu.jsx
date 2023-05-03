@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import styles from '../styles/AcountMenu.module.css';
+import { useCurrentUser } from './CurrentUserContext';
+import { useRouter } from 'next/router';
 
-export default function AccountMenu({setCurrentUser}) {
+export default function AccountMenu() {
   // State for the popup visibility
   const [popup, setPopup] = useState(true);
   const [headers, setHeaders] = useState({});
+  const{currentUser, setCurrentUser} = useCurrentUser();
+
+    // Router
+    const router = useRouter();
 
   // Toggle the popup visibility with a delay
   const handlePopup = () => {
@@ -28,6 +34,8 @@ export default function AccountMenu({setCurrentUser}) {
         localStorage.removeItem('token');
         setPopup(!popup);
         setCurrentUser({});
+        router.push('/connexion');
+
         }
     } catch (error) {
       console.error(error);
@@ -36,11 +44,12 @@ export default function AccountMenu({setCurrentUser}) {
 
   // Navigate to the settings page
   const goToSettings = () => {
+    router.push('/settings');
     setPopup(!popup);
   };
 
   return (
-    <div className="mr-2">
+    <div className="mr-3">
       <div className={styles.logo} onClick={handlePopup}>
         <i className="bi bi-person-circle"></i>
       </div>
@@ -50,6 +59,10 @@ export default function AccountMenu({setCurrentUser}) {
           <ul
             className={`${styles.liste} d-flex flex-column gap-3 justify-content-center`}
           >
+            <li className='d-flex gap-2'>
+            <i class="bi bi-patch-check-fill"></i>
+            {currentUser && currentUser.username}
+              </li>
             <li className="d-flex gap-2 align-items-center" onClick={goToSettings}>
               <i className="bi bi-gear-wide-connected"></i>
               Settings

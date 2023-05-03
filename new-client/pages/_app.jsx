@@ -8,12 +8,12 @@ import { Roboto_Flex, Montserrat } from "@next/font/google";
 import Layout from "../component/Layout";
 import Scripts from "../component/Scripts";
 import { useState } from "react";
+import CurrentUserProvider from "../component/CurrentUserContext";
 
 const roboto = Roboto_Flex({ subsets: ["latin"] });
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }) {
-  const [currentUser, setCurrentUser] = useState({});
 
   return (
     <>
@@ -25,11 +25,13 @@ export default function App({ Component, pageProps }) {
         `}
       </style>
       <Scripts />
+      <CurrentUserProvider>
       <LoaderProvider>
-        <Layout user={currentUser}>
-          <Component {...pageProps} user={currentUser}/>
+        <Layout>
+          <Component {...pageProps}/>
         </Layout>
       </LoaderProvider>
+      </CurrentUserProvider>
     </>
   );
 }

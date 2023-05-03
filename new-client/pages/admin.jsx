@@ -1,8 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "../styles/Admin.module.css";
+import { useCurrentUser } from "../component/CurrentUserContext";
+import { useRouter } from "next/router";
 
 export default function Admin() {
   //*State Variables
+  const { currentUser } = useCurrentUser();
   const [fetchData, setFetchData] = useState(false);
   const [users, setUsers] = useState([]);
   const [index, setIndex] = useState(0);
@@ -14,8 +17,15 @@ export default function Admin() {
   const formRef = useRef(null);
   const [headers, setHeaders] = useState({});
 
+
+  //*Router
+  const router = useRouter();
+
   //*Fetch Data when the FetchData state changes
   useEffect(() => {
+    if(!currentUser) {
+      router.push("/connexion");
+    }
     const token = localStorage.getItem("token");
     setHeaders({
       "Content-Type": "application/json",
@@ -25,7 +35,7 @@ export default function Admin() {
     fetch("https://james-bug-api.herokuapp.com/users", { headers: headers })
       .then((res) => res.json())
       .then((data) => setUsers(data.users));
-  }, [fetchData,headers]);
+  }, [fetchData]);
 
   //*Handle Click on a user in the table
   function handleClick(event) {
@@ -68,6 +78,10 @@ export default function Admin() {
       setRole("");
       setFetchData(!fetchData);
     }
+  }
+
+  if(!currentUser) {
+    return null
   }
 
   return (

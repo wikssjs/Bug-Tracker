@@ -6,16 +6,17 @@ import Activity from "../component/Activity";
 import EditPopup from "../component/EditPopup";
 import ProjectPopup from "../component/ProjectPopup";
 import styles from "../styles/Accueil.module.css";
+import { useCurrentUser } from "../component/CurrentUserContext";
 import Notification from "../component/Notification";
 
-export default function Main({ user }) {
+export default function Main() {
   //* State Variables
   const [projects, setProjects] = useState({
     projects: [],
     contributors: [],
     activities: [],
   });
-  const [currentUser, setCurrentUser] = useState({});
+  const { currentUser } = useCurrentUser();
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [fetchData, setFetchData] = useState(false);
@@ -82,7 +83,7 @@ export default function Main({ user }) {
     fetch("https://james-bug-api.herokuapp.com/", { headers: headers })
       .then((res) => res.json())
       .then((data) => setProjects(data));
-  }, [fetchData,router]);
+  }, [fetchData,router,currentUser]);
 
   //* Show the notification when a project is added or edited
   useEffect(() => {
@@ -117,8 +118,8 @@ export default function Main({ user }) {
     setShowEditPopup(true);
   }
 
-  if(!user) {
-    return <div>loading...</div>
+  if(!currentUser) {
+    return null
   }
   return (
     <main className="col-sm-10 main-content h-100 d-flex flex-column align-items-center m-auto">

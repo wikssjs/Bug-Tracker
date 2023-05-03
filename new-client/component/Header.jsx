@@ -5,17 +5,15 @@ import bug from '../public/bug.png'
 import jwt from 'jsonwebtoken';
 import { useEffect, useState } from 'react';
 import AccountMenu from './AccountMenu';
+import { useCurrentUser } from '../component/CurrentUserContext';
 
 
 
 
 export default function Header() {
 
-  const [currentUser, setCurrentUser] = useState({});
-
+  const { currentUser } = useCurrentUser();
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setCurrentUser(jwt.decode(token));
   }, [currentUser])
 
 
@@ -41,7 +39,7 @@ export default function Header() {
           <ul className={`${styles.navbar_nav} navbar-nav ml-auto mr-5 align-items-center`}>
             <li className="nav-item active">
               {
-                currentUser ?
+                currentUser && currentUser.username ?
                   <Link className={`${styles.nav_link} nav-link`} href="/">
                     Dashboard
                   </Link>
@@ -50,7 +48,7 @@ export default function Header() {
             </li>
             <li className="nav-item">
               {
-                currentUser ?
+                currentUser && currentUser.username ?
                   <Link className={`${styles.nav_link} nav-link`} href="/tickets">
                     Tickets
                   </Link>
@@ -59,7 +57,7 @@ export default function Header() {
               }
             </li>
             <li className="nav-item">
-              {!currentUser ? (
+              {!currentUser && !currentUser ? (
                 <Link className={`${styles.nav_link} nav-link`} href="/connexion">
                   Connexion
                 </Link>
@@ -69,19 +67,19 @@ export default function Header() {
             </li>
 
             {
-              currentUser ?
+              currentUser && currentUser.username ? 
               <li><Link
-              className={`${styles.nav_link} nav-link`}
-              href="/admin">Admin</Link>
-            </li>
-            :""
-          }
-          {currentUser ?
-            <li>
-              <AccountMenu setCurrentUser={setCurrentUser}/>
-            </li>
-            : ""
-          }
+                className={`${styles.nav_link} nav-link`}
+                href="/admin">Admin</Link>
+              </li>
+                : ""
+            }
+            {currentUser && currentUser.username ?
+              <li>
+                <AccountMenu />
+              </li>
+              : ""
+            }
           </ul>
         </div>
       </nav>

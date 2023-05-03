@@ -1,18 +1,25 @@
-import styles from '../styles/Settings.module.css'
+import { useCurrentUser } from '../component/CurrentUserContext';
 import { useEffect, useMemo, useState } from 'react';
+import styles from '../styles/Settings.module.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import jwt from 'jsonwebtoken';
 import pkg from 'bcryptjs';
+import { useRouter } from 'next/router';
 
 
 export default function Settings() {
-    const [currentUser, setCurrentUser] = useState();
     const [headers, setHeaders] = useState({});
+    const {currentUser, setCurrentUser} = useCurrentUser();
+
+    const router = useRouter();
 
 
     useEffect(() => {
+        if(!currentUser) {
+            router.push('/connexion');
+        }
         const token = localStorage.getItem("token");
         setCurrentUser(jwt.decode(token));
         setHeaders({
@@ -123,7 +130,7 @@ export default function Settings() {
 
 
 
-        const response = await fetch("http://192.168.0.53:5000/edit-user-account", {
+        const response = await fetch("https://james-bug-api.herokuapp.com/edit-user-account", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(user),
@@ -257,7 +264,7 @@ export default function Settings() {
         };
 
 
-        const response = await fetch("http://192.168.0.53:5000/user/change-password", {
+        const response = await fetch("https://james-bug-api.herokuapp.com/user/change-password", {
             method: "PUT",
             headers: headers,
             body: JSON.stringify(passwords),
@@ -272,6 +279,9 @@ export default function Settings() {
     }
 
 
+    if(!currentUser) {
+        return null;
+    }
 
 
     return (

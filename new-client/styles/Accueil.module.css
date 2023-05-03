@@ -188,6 +188,19 @@
   transition: 1s ease-in-out;
 }
 
+@media (max-width: 768px) {
+  .projects {
+    width: 120%;
+  }
+
+  .projects table {
+    width: 100%;
+  }
+  .projects table thead {
+    display: none;
+  }
+}
+
 @media (max-width: 500px) {
   .desc {
     display: none;
@@ -199,4 +212,8 @@
   .projects table {
     width: 100%;
   }
+  .projects table thead {
+    display: none;
+  }
+  
 }

@@ -4,12 +4,14 @@ import Comments from "../component/Comments";
 import jwt from "jsonwebtoken";
 import TicketPopup from "../component/TicketPopup";
 import styles from "../styles/Ticket.Id.module.css";
+import { useCurrentUser } from "../component/CurrentUserContext";
 
 export default function Ticket() {
   //* Router
   const router = useRouter();
 
   //* States Variables
+  const {currentUser } = useCurrentUser();
   const [showTicketPopPup, setShowTicketPopPup] = useState(false);
   const [contributors, setContributors] = useState([]);
   const [ticket, setTicket] = useState({});
@@ -59,12 +61,17 @@ export default function Ticket() {
         .then((res) => res.json())
         .then((data) => setContributors(data.users));
     }
-  }, [saveTicketId, fetchData, headers,router, ticket_id]);
+  },[]);
 
   //* Handle Popup
   const handlePopup = () => {
     setShowTicketPopPup(!showTicketPopPup);
   };
+
+
+  if(!currentUser) {
+    return null
+  }
 
   return (
     <main class={`${styles.container} container col`}>

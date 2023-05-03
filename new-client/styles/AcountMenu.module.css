@@ -16,8 +16,9 @@
     width: 140px;
     right: 0%;
     z-index:3;
-    height: 100px;
+    height: 150px;
     transition:0.5s ease-in;
+
 }
 
 .show{
@@ -26,10 +27,16 @@
     width: 140px;
     right: 0%;
     z-index: 3;
-    height: 200px;
+    height: 150px;
     transition: 0.5s ease;
 }
-.liste:nth-child(1):hover{
+
+.liste li{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.liste li:hover{
     color: #007bff;
 }
 .liste li {
